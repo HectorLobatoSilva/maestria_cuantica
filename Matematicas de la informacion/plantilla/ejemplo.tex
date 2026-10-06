@@ -1,0 +1,42 @@
+\documentclass[a4paper,11pt,oneside]{book}
+
+% 1. Cargar el diseño modular desde la carpeta vecina
+\makeatletter
+\def\input@path{{../plantilla/}}
+\makeatother
+\usepackage{unir_master}
+
+% 2. Bibliografía APA 7 específica de esta actividad
+\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
+\addbibresource{referencias.bib}
+
+% 3. Tus variables obligatorias (Se rellenan solas en la portada y PDF)
+\docTitle{Estudio de Algoritmos Cuánticos de Búsqueda}
+\subject{Computación Cuántica Avanzada}
+\docAuthor{Tu Nombre Completo}
+\professor{Nombre de tu Profesor}
+\docDate{\today}
+\keywordsEs{Quantum, Grover, Algoritmos}
+
+%========================================================================%
+\begin{document}
+
+    % Páginas de control iniciales
+    \frontmatter
+    \pagestyle{frontmatter}
+    \maketitle
+    \tableofcontents
+    \clearpage
+
+    % El Desarrollo del Trabajo Modular
+    \mainmatter
+    \pagestyle{mainmatter}
+    
+    \include{01_introduccion}
+    \include{02_desarrollo}
+
+    % Bibliografía final
+    \backmatter
+    \printbibliography[title={Bibliografía}]
+
+\end{document}

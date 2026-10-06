@@ -1,0 +1,1536 @@
+\documentclass[11pt]{article}
+    % --- NUESTRO FORMATO REQUERIDO ---
+    \usepackage{setspace}
+    \onehalfspacing
+
+    \usepackage{fontspec}
+    \setmainfont{Carlito-Regular.ttf}[
+        BoldFont = Carlito-Bold.ttf,
+        ItalicFont = Carlito-Italic.ttf,
+        BoldItalicFont = Carlito-BoldItalic.ttf
+    ]
+    \setsansfont{Carlito-Regular.ttf}[
+        BoldFont = Carlito-Bold.ttf,
+        ItalicFont = Carlito-Italic.ttf,
+        BoldItalicFont = Carlito-BoldItalic.ttf
+    ]
+    \renewcommand{\familydefault}{\sfdefault}
+
+    \usepackage{hyperref}
+    \hypersetup{
+        pdftitle={Laboratorio 1. Operaciones},
+        pdfauthor={Héctor Lobato Silva}
+    }
+    % ---------------------------------
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Laboratorio 1 Operaciones}
+    \author{Héctor Lobato Silva}
+    \date{\today}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Laboratorio 1. Operaciones}\label{laboratorio-1.-operaciones}
+
+\begin{itemize}
+\tightlist
+\item
+  Materia: \textbf{Álgebra Lineal en Computacion Cuantica}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} imports de paquetes y funciones comunes}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{cmath}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{math}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{display}\PY{p}{,} \PY{n}{Math}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{z}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Convierte un número complejo z en una cadena formateada limpia para LaTeX.}
+\PY{l+s+sd}{    Detecta automáticamente si los componentes son enteros o flotantes.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{real} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{z}\PY{o}{.}\PY{n}{real}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    \PY{n}{imag} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{z}\PY{o}{.}\PY{n}{imag}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf}{limpiar\PYZus{}numero}\PY{p}{(}\PY{n}{val}\PY{p}{)}\PY{p}{:}
+\PY{+w}{        }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Convierte float a str: \PYZsq{}3.0\PYZsq{} \PYZhy{}\PYZgt{} \PYZsq{}3\PYZsq{}, \PYZsq{}3.20\PYZsq{} \PYZhy{}\PYZgt{} \PYZsq{}3.2\PYZsq{}, \PYZsq{}3.25\PYZsq{} \PYZhy{}\PYZgt{} \PYZsq{}3.25\PYZsq{}\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{if} \PY{n}{val}\PY{o}{.}\PY{n}{is\PYZus{}integer}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{val}\PY{p}{)}\PY{p}{)}
+        \PY{k}{return} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{val}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{rstrip}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{rstrip}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{str\PYZus{}real} \PY{o}{=} \PY{n}{limpiar\PYZus{}numero}\PY{p}{(}\PY{n}{real}\PY{p}{)}
+    \PY{n}{str\PYZus{}imag\PYZus{}abs} \PY{o}{=} \PY{n}{limpiar\PYZus{}numero}\PY{p}{(}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{imag}\PY{p}{)}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Caso 1: Es un número totalmente real (imag es 0)}
+    \PY{k}{if} \PY{n}{imag} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{return} \PY{n}{str\PYZus{}real}
+    
+    \PY{c+c1}{\PYZsh{} Caso 2: Es un número imaginario puro (real es 0)}
+    \PY{k}{if} \PY{n}{real} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{if} \PY{n}{imag} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:} \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i}\PY{l+s+s2}{\PYZdq{}}
+        \PY{k}{if} \PY{n}{imag} \PY{o}{==} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}i}\PY{l+s+s2}{\PYZdq{}}
+        \PY{k}{return} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{limpiar\PYZus{}numero}\PY{p}{(}\PY{n}{imag}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{i}\PY{l+s+s2}{\PYZdq{}}
+    
+    \PY{c+c1}{\PYZsh{} Caso 3: Número complejo completo (real + imaginario)}
+    \PY{n}{signo} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{+}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{imag} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{str\PYZus{}imag} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{str\PYZus{}imag\PYZus{}abs} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1}\PY{l+s+s2}{\PYZdq{}} \PY{k}{else} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{str\PYZus{}imag\PYZus{}abs}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{i}\PY{l+s+s2}{\PYZdq{}}
+    
+    \PY{k}{return} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{str\PYZus{}real}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{signo}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{str\PYZus{}imag}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{formato\PYZus{}polar}\PY{p}{(}\PY{n}{z}\PY{p}{)}\PY{p}{:}
+    \PY{n}{r}\PY{p}{,} \PY{n}{theta} \PY{o}{=} \PY{n}{cmath}\PY{o}{.}\PY{n}{polar}\PY{p}{(}\PY{n}{z}\PY{p}{)}
+    \PY{k}{return} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{r}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{cdot e\PYZca{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{theta}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{i}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{matriz}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Convierte un ndarray de NumPy a código LaTeX de matriz automáticamente.}
+\PY{l+s+sd}{    Uso: display(Math(matriz\PYZus{}a\PYZus{}latex(M)))}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{cuerpo} \PY{o}{=} \PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZam{} }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{elem}\PY{p}{)} \PY{k}{for} \PY{n}{elem} \PY{o+ow}{in} \PY{n}{fila}\PY{p}{)}
+        \PY{k}{for} \PY{n}{fila} \PY{o+ow}{in} \PY{n}{matriz}
+    \PY{p}{)}
+    \PY{k}{return} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{pmatrix}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{cuerpo}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{pmatrix}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{vector}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Convierte un ndarray 1D de NumPy o Statevector de Qiskit a un vector columna LaTeX.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{vector\PYZus{}array} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{vector}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+    \PY{n}{cuerpo} \PY{o}{=} \PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{elemento}\PY{p}{)} \PY{k}{for} \PY{n}{elemento} \PY{o+ow}{in} \PY{n}{vector\PYZus{}array}\PY{p}{)}
+    \PY{k}{return} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{bmatrix}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{+w}{ }\PY{n}{cuerpo}\PY{+w}{ }\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{bmatrix}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Considerando las siguientes
+matrices}\label{considerando-las-siguientes-matrices}
+
+\begin{itemize}
+\tightlist
+\item
+  \(A = [3+2i , 1-i , 4-3i , 2+i , -5+4i , 6 , -3+2i , 7-i , 8+3i]\) (9
+  elementos en total)
+\item
+  \(B = [2+3i , 4 , 1+2i , 3-2i , 5+i , 7-3i , 6+4i , -2 , 9+5i]\) (9
+  elementos en total)
+\item
+  \(C = [1+4i , 2-2i , 3+i , -5 , -2+3i , 6 , 4+7i , 2+i , -1+2i , -3-4i , -6+5i , 3-i , -8i , 7+4i , -5-3i , 5i]\)
+  (16 elementos en total)
+\item
+  \(D = [i , 2 , 2-3i , 4+5i]\) (4 elementos en total)
+\end{itemize}
+
+Para que una matriz sea cuadrada ( estandar en álgebra lineal para poder
+calcular \textbf{determinantes, trazas, inversas y valores propios})
+
+\begin{itemize}
+\tightlist
+\item
+  Matrices \textbf{\(A \text{ y } B\)} tienen \textbf{9 elementos}: La
+  unica forma de acomodarlos en una matriz cuadrada es
+  \(3 \text{ x } 3(\sqrt(9) = 3)\)
+\item
+  Matriz \(C\) tiene \textbf{16 elementos}: La unica forma de
+  acomodarlos en una matriz cuadratica es en
+  \(4 \text{ x } 4 (\sqrt{16} = 4)\)
+\item
+  Matriz \(D\) tiene \textbf{4 elementos}: La única forma de acomodar 4
+  elementes en una matriz cuadratica es en un arreglo de
+  \(2 \text { x } 2 (\sqrt{4} = 2)\)
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Como recordatorio, en python los números imaginarios i se escriben como j en el numero complejo}
+\PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}
+    \PY{p}{[}  \PY{l+m+mi}{3} \PY{o}{+} \PY{l+m+mi}{2}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{4} \PY{o}{\PYZhy{}} \PY{l+m+mi}{3}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[}  \PY{l+m+mi}{2} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{5} \PY{o}{+} \PY{l+m+mi}{4}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{6} \PY{o}{+} \PY{l+m+mi}{0}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[} \PY{o}{\PYZhy{}}\PY{l+m+mi}{3} \PY{o}{+} \PY{l+m+mi}{2}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{7} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{8} \PY{o}{+} \PY{l+m+mi}{3}\PY{n}{j} \PY{p}{]}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{B} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}
+    \PY{p}{[} \PY{l+m+mi}{2} \PY{o}{+} \PY{l+m+mi}{3}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{4} \PY{o}{+} \PY{l+m+mi}{0}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{1} \PY{o}{+} \PY{l+m+mi}{2}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[} \PY{l+m+mi}{3} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{5} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{7} \PY{o}{\PYZhy{}} \PY{l+m+mi}{3}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[} \PY{l+m+mi}{6} \PY{o}{+} \PY{l+m+mi}{4}\PY{n}{j}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{o}{+} \PY{l+m+mi}{0}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{9} \PY{o}{+} \PY{l+m+mi}{5}\PY{n}{j} \PY{p}{]}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{C} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}
+    \PY{p}{[}  \PY{l+m+mi}{1} \PY{o}{+} \PY{l+m+mi}{4}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{2} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{3} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{5} \PY{o}{+} \PY{l+m+mi}{0}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[} \PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{o}{+} \PY{l+m+mi}{3}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{6} \PY{o}{+} \PY{l+m+mi}{0}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{4} \PY{o}{+} \PY{l+m+mi}{7}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{2} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{o}{+} \PY{l+m+mi}{2}\PY{n}{j}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{3} \PY{o}{\PYZhy{}} \PY{l+m+mi}{4}\PY{n}{j}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{6} \PY{o}{+} \PY{l+m+mi}{5}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{3} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[}  \PY{l+m+mi}{0} \PY{o}{\PYZhy{}} \PY{l+m+mi}{8}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{7} \PY{o}{+} \PY{l+m+mi}{4}\PY{n}{j}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{5} \PY{o}{\PYZhy{}} \PY{l+m+mi}{3}\PY{n}{j}\PY{p}{,}  \PY{l+m+mi}{0} \PY{o}{+} \PY{l+m+mi}{5}\PY{n}{j} \PY{p}{]}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{D} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}
+    \PY{p}{[} \PY{l+m+mi}{0} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{2} \PY{o}{+} \PY{l+m+mi}{0}\PY{n}{j} \PY{p}{]}\PY{p}{,}
+    \PY{p}{[} \PY{l+m+mi}{2} \PY{o}{\PYZhy{}} \PY{l+m+mi}{3}\PY{n}{j}\PY{p}{,} \PY{l+m+mi}{4} \PY{o}{+} \PY{l+m+mi}{5}\PY{n}{j} \PY{p}{]}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }
+\PY{l+s+s2}{A \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{A}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{B \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{B}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{C \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{C}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{D \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{D}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned} 
+A &= \begin{pmatrix} 3 + 2i & 1 - i & 4 - 3i \\ 2 + i & -5 + 4i & 6 \\ -3 + 2i & 7 - i & 8 + 3i \end{pmatrix} \\[1em]
+B &= \begin{pmatrix} 2 + 3i & 4 & 1 + 2i \\ 3 - 2i & 5 + i & 7 - 3i \\ 6 + 4i & -2 & 9 + 5i \end{pmatrix} \\[1em]
+C &= \begin{pmatrix} 1 + 4i & 2 - 2i & 3 + i & -5 \\ -2 + 3i & 6 & 4 + 7i & 2 + i \\ -1 + 2i & -3 - 4i & -6 + 5i & 3 - i \\ -8i & 7 + 4i & -5 - 3i & 5i \end{pmatrix} \\[1em]
+D &= \begin{pmatrix} i & 2 \\ 2 - 3i & 4 + 5i \end{pmatrix}
+\end{aligned}
+$
+
+    
+    \subsection{La forma polar de cada uno de los determinantes y de la
+traza de cada
+matriz.}\label{la-forma-polar-de-cada-uno-de-los-determinantes-y-de-la-traza-de-cada-matriz.}
+
+Un número complejo en su representación rectangular \(z = a + bi\) se
+puede traducir a su forma polar \(z = r e^{i\theta}\), donde
+\(r = \vert{z}\vert = \sqrt{a^2 + b^2}\) representa la magnitud/módulo y
+\(\theta = \text{atan2}(b, a)\) es el argumento o fase en radianes. En
+álgebra lineal sobre \(\mathbb{C}\), la traza
+\(\text{tr}(M) = \sum M_{ii}\) representa la suma de los valores
+propios, mientras que el determinante \(\det(M) = \prod \lambda_i\)
+representa su producto.
+
+\subsubsection{En resumen}\label{en-resumen}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Traza (\(\text{tr}\))}: Es la suma de los elementos de la
+  diagonal principal de la matriz.
+\item
+  \textbf{Determinante (\(\det\))}: Un escalar único que caracteriza las
+  propiedades algebraicas de la matriz.
+\item
+  \textbf{Forma polar de un número complejo}: Todo numero complejo
+  \(z = a + bi\) en el plano cartesiano se puede escribir en coordenadas
+  polares como:
+  \(z = a + bi = \vert{z}\vert^{i\theta} = r e ^{i \theta } = r (\cos \theta + i \sin \theta)\)
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \(r = \vert{z}\vert = \sqrt{a^2 + b^2}\) es el \textbf{módulo} (la
+  longitud del vector).
+\item
+  \(\theta = Arg(z)\) es la \textbf{fase o argumento}(el ángulo en
+  radianes con el eje real).
+\end{itemize}
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strang, G. (2016)}. Introduction to Linear Algebra (5th ed.).
+  Wellesley-Cambridge Press. (Capítulos 6 y 9).
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{matrices} \PY{o}{=} \PY{p}{\PYZob{}} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{A}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{B}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{C}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{D} \PY{p}{\PYZcb{}}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{display\PYZus{}r}\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{:}
+    \PY{n}{a\PYZus{}2} \PY{o}{=} \PY{n}{a}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+    \PY{n}{b\PYZus{}2} \PY{o}{=} \PY{n}{b}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+    \PY{n}{r} \PY{o}{=}  \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{a\PYZus{}2} \PY{o}{+} \PY{n}{b\PYZus{}2}\PY{p}{)}
+    \PY{k}{return} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{(}\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}2) + (}\PY{l+s+si}{\PYZob{}}\PY{n}{b}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}2)}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ = }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{a\PYZus{}2}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ + }\PY{l+s+si}{\PYZob{}}\PY{n}{b\PYZus{}2}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ = }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{p}{(}\PY{n}{a\PYZus{}2}\PY{+w}{ }\PY{o}{+}\PY{+w}{ }\PY{n}{b\PYZus{}2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{approx }\PY{l+s+si}{\PYZob{}}\PY{n}{r}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{display\PYZus{}theta}\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{,} \PY{n}{tipo}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{det}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{tipo} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{det}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{theta} \PY{o}{=}  \PY{n}{math}\PY{o}{.}\PY{n}{atan2}\PY{p}{(}\PY{n}{b}\PY{p}{,}\PY{n}{a}\PY{p}{)}
+        \PY{n}{texto} \PY{o}{=} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{operatorname}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{arctan2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+si}{\PYZob{}}\PY{n}{b}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{,}\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}
+    \PY{k}{elif} \PY{n}{tipo} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tar}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{theta} \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{atan}\PY{p}{(}\PY{n}{b}\PY{o}{/}\PY{n}{a}\PY{p}{)}
+        \PY{n}{texto} \PY{o}{=} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{operatorname}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{arctan}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{left(}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{b}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.0f}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{right)}\PY{l+s+s2}{\PYZdq{}}
+    \PY{k}{return} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{theta \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{texto}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{approx }\PY{l+s+si}{\PYZob{}}\PY{n}{theta}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{rad}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{k}{for} \PY{n}{matriz}\PY{p}{,} \PY{n}{valores} \PY{o+ow}{in} \PY{n}{matrices}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{determinante} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{det}\PY{p}{(}\PY{n}{valores}\PY{p}{)}
+    \PY{n}{traza} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{trace}\PY{p}{(}\PY{n}{valores}\PY{p}{)}
+    
+    \PY{n}{det\PYZus{}real}\PY{p}{,} \PY{n}{det\PYZus{}imag} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{determinante}\PY{o}{.}\PY{n}{real}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n+nb}{round}\PY{p}{(}\PY{n}{determinante}\PY{o}{.}\PY{n}{imag}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    
+    \PY{n}{tr\PYZus{}real}\PY{p}{,} \PY{n}{tr\PYZus{}imag} \PY{o}{=} \PY{n+nb}{round}\PY{p}{(}\PY{n}{traza}\PY{o}{.}\PY{n}{real}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n+nb}{round}\PY{p}{(}\PY{n}{traza}\PY{o}{.}\PY{n}{imag}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    
+    \PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Matriz }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}: }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) \PYZam{}: }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{    }\PY{l+s+si}{\PYZob{}}\PY{n}{display\PYZus{}r}\PY{p}{(}\PY{n}{det\PYZus{}real}\PY{p}{,}\PY{+w}{ }\PY{n}{det\PYZus{}imag}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+si}{\PYZob{}}\PY{n}{display\PYZus{}theta}\PY{p}{(}\PY{n}{det\PYZus{}real}\PY{p}{,}\PY{+w}{ }\PY{n}{det\PYZus{}imag}\PY{p}{,}\PY{+w}{ }\PY{n}{tipo}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{det}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{determinante}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}polar}\PY{p}{(}\PY{n}{determinante}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) \PYZam{}: }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{    }\PY{l+s+si}{\PYZob{}}\PY{n}{display\PYZus{}r}\PY{p}{(}\PY{n}{tr\PYZus{}real}\PY{p}{,}\PY{+w}{ }\PY{n}{tr\PYZus{}imag}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+si}{\PYZob{}}\PY{n}{display\PYZus{}theta}\PY{p}{(}\PY{n}{tr\PYZus{}real}\PY{p}{,}\PY{+w}{ }\PY{n}{tr\PYZus{}imag}\PY{p}{,}\PY{+w}{ }\PY{n}{tipo}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tar}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{traza}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}polar}\PY{p}{(}\PY{n}{traza}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } A} &: \\
+    \det(A) &: \\
+    r &= \sqrt{(-248^2) + (-6^2)} = \sqrt{61504 + 36} = \sqrt{61540} \approx 248.0726 \\
+    \theta &= \operatorname{arctan2}(-6,-248) \approx -3.1174 \text{rad} \\
+    \det(A) &= -248 - 6i \implies \mathbf{248.0726 \cdot e^{-3.1174i}} \\
+    \text{tr}(A) &: \\
+    r &= \sqrt{(6^2) + (9^2)} = \sqrt{36 + 81} = \sqrt{117} \approx 10.8167 \\
+    \theta &= \operatorname{arctan}\left(\frac{9}{6}\right) \approx 0.9828 \text{rad} \\
+    \text{tr}(A) &= 6 + 9i \implies \mathbf{10.8167 \cdot e^{0.9828i}}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } B} &: \\
+    \det(B) &: \\
+    r &= \sqrt{(104^2) + (184^2)} = \sqrt{10816 + 33856} = \sqrt{44672} \approx 211.3575 \\
+    \theta &= \operatorname{arctan2}(184,104) \approx 1.0563 \text{rad} \\
+    \det(B) &= 104 + 184i \implies \mathbf{211.3575 \cdot e^{1.0563i}} \\
+    \text{tr}(B) &: \\
+    r &= \sqrt{(16^2) + (9^2)} = \sqrt{256 + 81} = \sqrt{337} \approx 18.3576 \\
+    \theta &= \operatorname{arctan}\left(\frac{9}{16}\right) \approx 0.5124 \text{rad} \\
+    \text{tr}(B) &= 16 + 9i \implies \mathbf{18.3576 \cdot e^{0.5124i}}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } C} &: \\
+    \det(C) &: \\
+    r &= \sqrt{(860^2) + (3250^2)} = \sqrt{739600 + 10562500} = \sqrt{11302100} \approx 3361.8596 \\
+    \theta &= \operatorname{arctan2}(3250,860) \approx 1.3121 \text{rad} \\
+    \det(C) &= 860 + 3250i \implies \mathbf{3361.8596 \cdot e^{1.3121i}} \\
+    \text{tr}(C) &: \\
+    r &= \sqrt{(1^2) + (14^2)} = \sqrt{1 + 196} = \sqrt{197} \approx 14.0357 \\
+    \theta &= \operatorname{arctan}\left(\frac{14}{1}\right) \approx 1.4995 \text{rad} \\
+    \text{tr}(C) &= 1 + 14i \implies \mathbf{14.0357 \cdot e^{1.4995i}}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } D} &: \\
+    \det(D) &: \\
+    r &= \sqrt{(-9^2) + (10^2)} = \sqrt{81 + 100} = \sqrt{181} \approx 13.4536 \\
+    \theta &= \operatorname{arctan2}(10,-9) \approx 2.3036 \text{rad} \\
+    \det(D) &= -9 + 10i \implies \mathbf{13.4536 \cdot e^{2.3036i}} \\
+    \text{tr}(D) &: \\
+    r &= \sqrt{(4^2) + (6^2)} = \sqrt{16 + 36} = \sqrt{52} \approx 7.2111 \\
+    \theta &= \operatorname{arctan}\left(\frac{6}{4}\right) \approx 0.9828 \text{rad} \\
+    \text{tr}(D) &= 4 + 6i \implies \mathbf{7.2111 \cdot e^{0.9828i}}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \subsection{\texorpdfstring{\(2i(det(D)+tr(C))AB-(1+i)  det⁡(C)tr(D)BA\)}{2i(det(D)+tr(C))AB-(1+i)  det⁡(C)tr(D)BA}}\label{idetdtrcab-1i-detctrdba}
+
+La estructura de la formula esta dividida en 2 terminos
+
+\[\underbrace{2i(\det(D) + \text{tr}(C))}_{\mathbf{\text{Primer escalar } (k_1)}} \mathbf{AB} \quad - \quad \underbrace{(1+i)\det(C)\text{tr}(D)}_{\mathbf{\text{Segundo escalar } (k_2)}} \mathbf{BA}\]
+
+\[k_1 = 2i \cdot (\det(D) + \text{tr}(C))\]
+
+\[k_2 = (1+i) \cdot \det(C) \cdot \text{tr}(D)\]
+
+Vamos a calcular las determinantes (\(\det(D)\) y \(\det(C)\)), asi
+mismo la traza (\(\text{tr(D)}\) y \(\text{tr(C)}\)) de estas matrices
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{det\PYZus{}D} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{det}\PY{p}{(}\PY{n}{D}\PY{p}{)}
+\PY{n}{tr\PYZus{}D} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{trace}\PY{p}{(}\PY{n}{D}\PY{p}{)}
+\PY{n}{det\PYZus{}C} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{det}\PY{p}{(}\PY{n}{C}\PY{p}{)}
+\PY{n}{tr\PYZus{}C} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{trace}\PY{p}{(}\PY{n}{C}\PY{p}{)}
+
+\PY{n}{k1\PYZus{}parentesis} \PY{o}{=} \PY{n}{det\PYZus{}D} \PY{o}{+} \PY{n}{tr\PYZus{}C}
+\PY{n}{k2\PYZus{}parentesis} \PY{o}{=} \PY{n}{det\PYZus{}C} \PY{o}{*} \PY{n}{tr\PYZus{}D}
+
+\PY{n}{k1} \PY{o}{=} \PY{l+m+mi}{2}\PY{n}{j} \PY{o}{*} \PY{n}{k1\PYZus{}parentesis}
+\PY{n}{k2} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j}\PY{p}{)}\PY{o}{*} \PY{n}{k2\PYZus{}parentesis}
+
+\PY{n}{AB} \PY{o}{=} \PY{n}{A} \PY{o}{@} \PY{n}{B}
+\PY{n}{BA} \PY{o}{=} \PY{n}{B} \PY{o}{@} \PY{n}{A}
+
+\PY{n}{resultado\PYZus{}matriz} \PY{o}{=} \PY{p}{(} \PY{n}{k1} \PY{o}{*} \PY{n}{AB} \PY{p}{)} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{k2} \PY{o}{*} \PY{n}{BA} \PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Calculando el escalar }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ k\PYZus{}1 \PYZam{}= 2i }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot (}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(D) + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(C)) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(D) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{det\PYZus{}D}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(C) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{tr\PYZus{}C}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(D) + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(C) \PYZam{}= (}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{det\PYZus{}D}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) + (}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{tr\PYZus{}C}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) = }
+\PY{l+s+s2}{(}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{k1\PYZus{}parentesis}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Multiplicamos por }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ 2i: }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{k\PYZus{}1 \PYZam{}= 2i }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot (}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{k1\PYZus{}parentesis}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) = }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{k1}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Calculando el escalar }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ k\PYZus{}2 \PYZam{}= (1 + i) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(C) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(D) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(C) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{det\PYZus{}C}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(D) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{tr\PYZus{}D}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{(1 + i) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{det(C) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{tr}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(D) \PYZam{}= (1 + i) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot (}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{det\PYZus{}C}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdot }
+\PY{l+s+s2}{(}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{tr\PYZus{}D}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) = (}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{k2\PYZus{}parentesis}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{k\PYZus{}2 \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{k2}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Resultado Final:}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{k\PYZus{}1(AB) \PYZhy{} k\PYZus{}2(BA) \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{resultado\PYZus{}matriz}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+\text{Calculando el escalar } k_1 &= 2i \cdot (\det(D) + \text{tr}(C)) \\[0.2em]
+\det(D) &= -9 + 10i \\[0.2em]
+\text{tr}(C) &= 1 + 14i \\[0.2em]
+\det(D) + \text{tr}(C) &= (-9 + 10i) + (1 + 14i) = 
+(-8 + 24i) \\[0.2em]
+\text{Multiplicamos por } 2i: \\[0.2em]
+k_1 &= 2i \cdot (-8 + 24i) = \mathbf{-48 - 16i} \\[1em]
+\text{Calculando el escalar } k_2 &= (1 + i) \cdot \det(C) \cdot \text{tr}(D) \\[0.2em]
+\det(C) &= 860 + 3250i \\[0.2em]
+\text{tr}(D) &= 4 + 6i \\[0.2em]
+(1 + i) \cdot \det(C) \cdot \text{tr}(D) &= (1 + i) \cdot (860 + 3250i) \cdot 
+(4 + 6i) = (-16060 + 18160i) \\[0.2em]
+k_2 &= \mathbf{-34220 + 2100i} \\[1em]
+\mathbf{\text{Resultado Final:}} \\[0.2em]
+k_1(AB) - k_2(BA) &= \begin{pmatrix} 59840 + 441880i & -142640 + 1038560i & 1521224 + 764768i \\ 301964 + 1008828i & 580048 - 654144i & 3426580 - 695420i \\ -1009936 + 918568i & 3044640 + 362400i & 2904272 + 2050984i \end{pmatrix}
+\end{aligned}
+$
+
+    
+    \subsection{\texorpdfstring{Inversas de las matrices
+\(A^{-1}, B^{-1}, C^{-1}, D^{-1}\)}{Inversas de las matrices A\^{}\{-1\}, B\^{}\{-1\}, C\^{}\{-1\}, D\^{}\{-1\}}}\label{inversas-de-las-matrices-a-1-b-1-c-1-d-1}
+
+La \textbf{Inversa} de una matriz cuadrada \(A\) se escribe como
+\(A^{-1}\). Cuando existe, tiene la propiedad de que multiplicar \(A\)
+por \(A^{-1}\) da como resultado la matriz Identidad \emph{\(I\)}( en
+cualquier orden ): \(A^{-1} = I\) y \(AA^{-1} = I\). La matriz A se
+denomina \textbf{invertible} o \textbf{no singular}.
+
+Para que la matriz posea una inversa, debe cumplir de manera obligarotia
+con las siguientes condiciones fundaentales detalladas en el programa de
+álgebra lineal de Wellesley-Cambridge Press: - \textbf{Ser una matriz
+cuadrada}: El número de filas debe ser exactamente igual al número de
+columnas (\(nxn\)). Las matrices rectangulares no tienen inversa
+bilateral estándar. - \textbf{Determinante distinto a cero}: Su
+determinante debe cumplir con la condicion \(\det{(A)} \neq 0\). Si el
+determinante es cero, la matriz se considera \textbf{singular} y no
+tiene inversa. - \textbf{Columnas y filas linealmente independientes}:
+Ningula columna (o fila) puede ser una combinación lineal de las demás.
+- \textbf{Solución única}: El sistema homogéneo \(Ax = 0\) debe tener
+únicamente la solución trivial \((x = 0)\), lo que significa que el
+núcleo o \emph{nullspace} de la metriz contiene solo el vector cero. -
+\textbf{Rango completo}: La matriz debe tener un rango igual a su
+dimensión \(n\) (rango completo)
+
+\paragraph{Fuente}\label{fuente}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strang, G. (2016)}. Introduction to Linear Algebra (5th ed.).
+  Wellesley-Cambridge Press. (Capítulo 2).
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{texto} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{matriz}\PY{p}{,} \PY{n}{valor} \PY{o+ow}{in} \PY{n}{matrices}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{matriz\PYZus{}inversa} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{n}{valor}\PY{p}{)}
+        \PY{n}{texto}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZhy{}1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{matriz\PYZus{}inversa}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{[1em]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{LinAlgError}\PY{p}{:}
+        \PY{n}{texto}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{La matriz }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ no es invertible}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+si}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{texto}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+A^{-1} &= \begin{pmatrix} 0.38 - 0.1i & -0.05 + 0.08i & -0.05 + 0.15i \\ 0.13 + 0.01i & -0.1 - 0.03i & 0.03 + 0.06i \\ -0.03 - 0.11i & 0.1 + 0.02i & 0.1 - 0.01i \end{pmatrix} \\[1em] B^{-1} &= \begin{pmatrix} 0.24 - 0.16i & -0.19 + 0.1i & -0.04 - 0.16i \\ 0.09 - 0.04i & 0.1 + 0.03i & -0.08 + 0.04i \\ -0.17 + 0.08i & 0.16 - 0.06i & 0.09 + 0.08i \end{pmatrix} \\[1em] C^{-1} &= \begin{pmatrix} 0.01 + 0.02i & 0.05 - 0.11i & 0.16 - 0.02i & 0.1 + 0.12i \\ 0.03 + 0.08i & 0.07 - 0.06i & 0.05 + 0.05i & 0.07 + 0.05i \\ -0.02 - 0.04i & 0.01 - 0.01i & -0.1 - 0.06i & -0.03 - 0.05i \\ -0.17 & 0.1 - 0.04i & 0.03 + 0.07i & -0.04 + 0.05i \end{pmatrix} \\[1em] D^{-1} &= \begin{pmatrix} 0.08 - 0.47i & 0.1 + 0.11i \\ 0.27 - 0.04i & 0.06 - 0.05i \end{pmatrix} \\[1em]
+\end{aligned}
+$
+
+    
+    \subsection{Clasificación Formal de
+Matrices}\label{clasificaciuxf3n-formal-de-matrices}
+
+Recordemos las diferentes tipos de matrices
+
+\subsubsection{\texorpdfstring{Matriz Hermintiana
+(\(A = A^\dagger\))}{Matriz Hermintiana (A = A\^{}\textbackslash dagger)}}\label{matriz-hermintiana-a-adagger}
+
+Una matriz cuadrada cuyos elementos cimples que
+\(a_ij = \overline a_ij\) (igual a su transpuesta conjugada). Una
+propiedad fundamental es que \textbf{todos sus valores propios
+(\(\lambda\)) estan obligados a ser números puramente reales}
+
+\subsubsection{\texorpdfstring{Matriz Unitaria
+(\(U^\dagger U = I\))}{Matriz Unitaria (U\^{}\textbackslash dagger U = I)}}\label{matriz-unitaria-udagger-u-i}
+
+Es una matriz compleja cuyas columnas son vectores oronormales entre si.
+Cumple con su inversa es exactamente igual a su transpuesta conjugada
+(\(U^{-1} = U^H\))
+
+\subsubsection{\texorpdfstring{Matriz Normal
+(\(AA^\dagger = A^\dagger A\))}{Matriz Normal (AA\^{}\textbackslash dagger = A\^{}\textbackslash dagger A)}}\label{matriz-normal-aadagger-adagger-a}
+
+Toda matriz Hermitiana y toda matriz Unitaria son por definición
+normales. Permiten la diagonalización mediante matrices unitarias.
+
+\paragraph{Fuente}\label{fuente}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strang, G. (2016)}. Introduction to Linear Algebra (5th ed.).
+  Wellesley-Cambridge Press. (Capítulo 9).
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{matriz}\PY{p}{,} \PY{n}{valor} \PY{o+ow}{in} \PY{n}{matrices}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{n} \PY{o}{=} \PY{n}{valor}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{valor\PYZus{}conjugada\PYZus{}transpuesta} \PY{o}{=} \PY{n}{valor}\PY{o}{.}\PY{n}{conj}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+    \PY{n}{I} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{n}\PY{p}{)}
+
+    \PY{n}{es\PYZus{}hermitiana} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{valor}\PY{p}{,} \PY{n}{valor\PYZus{}conjugada\PYZus{}transpuesta}\PY{p}{)}
+    \PY{n}{es\PYZus{}unitaria} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{valor\PYZus{}conjugada\PYZus{}transpuesta} \PY{o}{@} \PY{n}{valor}\PY{p}{,} \PY{n}{I}\PY{p}{)}
+    \PY{n}{es\PYZus{}normal} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{valor} \PY{o}{@} \PY{n}{valor\PYZus{}conjugada\PYZus{}transpuesta}\PY{p}{,} \PY{n}{valor\PYZus{}conjugada\PYZus{}transpuesta} \PY{o}{@} \PY{n}{valor}\PY{p}{)}
+
+    \PY{n}{valores\PYZus{}propios} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{eigvals}\PY{p}{(}\PY{n}{valor}\PY{p}{)}
+
+    \PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Matriz }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{:}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.3em]}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Valores propios }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lambda \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{left[ }\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, }\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{val}\PY{p}{)}\PY{+w}{ }\PY{k}{for}\PY{+w}{ }\PY{n}{val}\PY{+w}{ }\PY{o+ow}{in}\PY{+w}{ }\PY{n}{valores\PYZus{}propios}\PY{p}{]}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{right] }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{¿Es Hermitiana? }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{stackrel}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{?}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{=}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dagger) \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{es\PYZus{}hermitiana}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{¿Es Unitaria? }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dagger }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{stackrel}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{?}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{=}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ I) \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{es\PYZus{}unitaria}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.2em]}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{¿Es Normal? }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dagger }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{stackrel}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{?}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{=}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZca{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dagger }\PY{l+s+si}{\PYZob{}}\PY{n}{matriz}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{es\PYZus{}normal}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{    }\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } A:} &\\[0.3em]
+    \text{Valores propios } \lambda &= \left[ -7.48 + 4.14i, 2.4 + 0.34i, 11.09 + 4.52i \right] \\[0.2em]
+    \text{¿Es Hermitiana? } (A \stackrel{?}{=} A^\dagger) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Unitaria? } (A^\dagger A \stackrel{?}{=} I) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Normal? } (AA^\dagger \stackrel{?}{=} A^\dagger A) &\implies \mathbf{False}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } B:} &\\[0.3em]
+    \text{Valores propios } \lambda &= \left[ 10.57 + 5.88i, 2.62 + 4.71i, 2.82 - 1.6i \right] \\[0.2em]
+    \text{¿Es Hermitiana? } (B \stackrel{?}{=} B^\dagger) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Unitaria? } (B^\dagger B \stackrel{?}{=} I) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Normal? } (BB^\dagger \stackrel{?}{=} B^\dagger B) &\implies \mathbf{False}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } C:} &\\[0.3em]
+    \text{Valores propios } \lambda &= \left[ -7.52 + 7.25i, -3.34 - 3.07i, 4.09 + 7.87i, 7.76 + 1.94i \right] \\[0.2em]
+    \text{¿Es Hermitiana? } (C \stackrel{?}{=} C^\dagger) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Unitaria? } (C^\dagger C \stackrel{?}{=} I) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Normal? } (CC^\dagger \stackrel{?}{=} C^\dagger C) &\implies \mathbf{False}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    $\displaystyle 
+    \begin{aligned}
+    \mathbf{\text{Matriz } D:} &\\[0.3em]
+    \text{Valores propios } \lambda &= \left[ -0.06 + 2.51i, 4.06 + 3.49i \right] \\[0.2em]
+    \text{¿Es Hermitiana? } (D \stackrel{?}{=} D^\dagger) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Unitaria? } (D^\dagger D \stackrel{?}{=} I) &\implies \mathbf{False} \\[0.2em]
+    \text{¿Es Normal? } (DD^\dagger \stackrel{?}{=} D^\dagger D) &\implies \mathbf{False}
+    \end{aligned}
+    $
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    Las verificaciones para las matrices \(A,B,C,D\) devolvieron
+\texttt{False} porque ninguna de las matrices dadas cumple las
+condiciones simétricas o estructurales estrictas sobre \(\mathbb{C}\):
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Matriz Hermitiana (\(M = M^\dagger\))}: Exige que la matriz
+  sea igual a su tranpuesta conjugada. Una propiedad fundamental es que
+  \textbf{todos sus valores propios deben ser estrictamente números
+  reales} (\(\lambda \in \mathbb{R}\)). En los resultados los valores
+  propios tienen parte imaginaria no nula (ej.
+  \(\lambda_1 = -7.48 + 4.14i\) ), por lo que no pueden ser Hermitianas.
+\item
+  \textbf{Matriz Unitaria (\(U^\dagger U = I\))}: Representa
+  transformaciones que conservan la norma/probabilidad. Exige que todos
+  sus valores propios tengan módulo igual a 1
+  (\(\vert\lambda\vert = 1\)). En los resultados las matrices tienen
+  módulos mayores a 1.
+\item
+  \textbf{Matriz Normal (\(M M^\dagger = M^\dagger M\))}: Requiere que
+  la matriz conmute con su adjunta. Las matrices \(A,B,C,D\) del
+  ejercicio son matrices complejas genéricas no estructuradas.
+\end{itemize}
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Horn, R.A., \& Johnson, C.R.(2012)}. Matrix Analysis(2nd ed).
+  Cambridge University Press. (Capitulo 2: Unitary Matrices and Normal
+  Matrices).
+\item
+  \textbf{Nielsen M.A., \& Chuang, I.L.(2010)}. Quantum Computation and
+  Quantum Information. (Sección 2.1.5: Operators, p.69-72)
+\end{itemize}
+
+    \section{NumPy y Qiskit}\label{numpy-y-qiskit}
+
+\subsection{\texorpdfstring{Vectores estados
+\(\mathbb{C}^2: \vert{0}\rangle, \vert{1}\rangle\)}{Vectores estados \textbackslash mathbb\{C\}\^{}2: \textbackslash vert\{0\}\textbackslash rangle, \textbackslash vert\{1\}\textbackslash rangle}}\label{vectores-estados-mathbbc2-vert0rangle-vert1rangle}
+
+En física cuántica, los estados de los sistemas no se representan con
+variables continuas ordinarias, sino con \textbf{vectores estado} en un
+espacio vectorial complejo (\(\mathbb{C}^n\)), utilizando la notacion
+\emph{Dirac} o \emph{bra-ket(\(\vert\psi\rangle\))}.
+
+Un qubit es el sistema cuántico de 2 niveles. Sus estados base son
+
+\[\vert{0}\rangle = \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad \vert{1}\rangle = \begin{bmatrix} 0 \\ 1 \end{bmatrix}\]
+
+Cualquier estado generico \(\vert\psi\rangle\) es una superposicion:
+
+\[\vert\psi\rangle = \alpha \vert{0}\rangle + \beta \vert{1}\rangle = \begin{bmatrix} \alpha \\ \beta \end{bmatrix}\]
+
+donde \(\alpha, \beta \in \mathbb{C}\) y cumplen la \textbf{condición de
+normalización}: \(\vert\alpha\vert^2 + \vert\beta\vert^2 = 1\).
+
+La constante de normalización \(\frac{1}{\sqrt{2}}\) presente en los
+estados \(\vert{+}\rangle,\vert{-}\rangle\), estados de Bell y los
+estados de 3 qubits provienen del \textbf{Axioma de Born} de la mecánica
+cuántica: La suma de las probabilidades de todos los resultados posobles
+debe ser exactamente 1 (100\%).
+
+\[\vert{\psi}\vert = \alpha\vert{000}\vert + \beta\vert{111}\vert \implies \vert{\alpha}\vert^2 + \vert{\beta}\vert^2 = 1\]
+
+\[\left\vert\frac{1}{\sqrt{2}}\right\vert^2 + \left\vert\frac{1}{\sqrt{2}}\right\vert^2 = \frac{1}{2} + \frac{1}{2} = 1\]
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strang, G. (2016)}. Introduction to Linear Algebra (5th ed.).
+  Wellesley-Cambridge Press. (Capítulo 4).
+\item
+  \textbf{Qiskit Texbook}: Single Quibit Gates \& States. IBM Quantum
+  Experience
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{qiskit}\PY{n+nn}{.}\PY{n+nn}{quantum\PYZus{}info}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Statevector}
+
+\PY{n}{ket\PYZus{}0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{complex}\PY{p}{)}
+\PY{n}{ket\PYZus{}1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{complex}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creacion de estados de superposicion}
+\PY{n}{ket\PYZus{}suma\PYZus{}np} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}0} \PY{o}{+} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+
+\PY{n}{vector\PYZus{}estado\PYZus{}suma} \PY{o}{=} \PY{n}{Statevector}\PY{p}{(}\PY{n}{ket\PYZus{}suma\PYZus{}np}\PY{p}{)}
+
+\PY{n}{norma\PYZus{}sq} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vdot}\PY{p}{(}\PY{n}{ket\PYZus{}suma\PYZus{}np}\PY{p}{,} \PY{n}{ket\PYZus{}suma\PYZus{}np}\PY{p}{)}\PY{o}{.}\PY{n}{real}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{0}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}0}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad , }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}1}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{+}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{0}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}suma\PYZus{}np}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Comprobación de la norma }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{langle +}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{+}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{norma\PYZus{}sq}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ Estado valido normalizado }\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+\vert{0}\rangle &= \begin{bmatrix} 1 \\ 0 \end{bmatrix} \quad , \quad \vert{1}\rangle \text{ = } \begin{bmatrix} 0 \\ 1 \end{bmatrix} \\
+\vert{+}\rangle &= \frac{1}{\sqrt{2}}(\vert{0}\rangle + \vert{1}\rangle) \text{ = } \begin{bmatrix} 0.71 \\ 0.71 \end{bmatrix} \\
+\text{Comprobación de la norma } \\
+\langle +\vert{+}\rangle &= 1.00 \implies \text{ Estado valido normalizado }
+\end{aligned}
+$
+
+    
+    \subsection{\texorpdfstring{Estados
+\(\vert{+}\rangle, \vert-\rangle, \vert{}i+\rangle, \vert{}i-\rangle\) y
+estados de
+Bell}{Estados \textbackslash vert\{+\}\textbackslash rangle, \textbackslash vert-\textbackslash rangle, \textbackslash vert\{\}i+\textbackslash rangle, \textbackslash vert\{\}i-\textbackslash rangle y estados de Bell}}\label{estados-vertrangle-vert-rangle-vertirangle-verti-rangle-y-estados-de-bell}
+
+En computación cuantica, ademas de la base computacional
+\(\{\vert{}0\rangle, \vert{}1\rangle\}\), usamos frecuentemente otras
+bases ortonormales en \(\mathbb{C}^2\)
+
+\subsubsection{\texorpdfstring{\textbf{Base X
+(\(\vert{+}\rangle,\vert{-}\rangle\))}}{Base X (\textbackslash vert\{+\}\textbackslash rangle,\textbackslash vert\{-\}\textbackslash rangle)}}\label{base-x-vertranglevert-rangle}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\vert{+}\rangle = \frac{1}{\sqrt{2}}(\vert{0}\rangle + \vert{1}\rangle)\)
+\item
+  \(\vert{-}\rangle = \frac{1}{\sqrt{2}}(\vert{0}\rangle - \vert{1}\rangle)\)
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\textbf{Base
+Y(\(\vert{i}+\rangle,\vert{i}-\rangle \text{ o } \vert{}+i\rangle, \vert{}-i\rangle\))}}{Base Y(\textbackslash vert\{i\}+\textbackslash rangle,\textbackslash vert\{i\}-\textbackslash rangle \textbackslash text\{ o \} \textbackslash vert\{\}+i\textbackslash rangle, \textbackslash vert\{\}-i\textbackslash rangle)}}\label{base-yvertirangleverti-rangle-text-o-vertirangle-vert-irangle}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\vert{i}+\rangle = \frac{1}{\sqrt{2}}(\vert{0}\rangle + i\vert{1}\rangle)\)
+\item
+  \(\vert{i}-\rangle = \frac{1}{\sqrt{2}}(\vert{0}\rangle - i\vert{1}\rangle)\)
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\textbf{Estados de Bell (Base de
+entrelazamiento en
+\(\mathbb{C}^4\))}}{Estados de Bell (Base de entrelazamiento en \textbackslash mathbb\{C\}\^{}4)}}\label{estados-de-bell-base-de-entrelazamiento-en-mathbbc4}
+
+Para representar un sistema de 2 qubits, combinamos los espacios
+mediante el producto de Kronecker/Tensorial:
+
+\[\vert\psi_1\rangle \otimes \vert\psi_2\rangle = \begin{bmatrix} \alpha_1 \\ \beta_1 \end{bmatrix} \otimes \begin{bmatrix} \alpha_2 \\ \beta_2 \end{bmatrix} = \begin{bmatrix} \alpha_1 \alpha_2 \\ \alpha_1 \beta_2 \\ \beta_1 \alpha_2 \\ \beta_1 \beta_2 \end{bmatrix}\]
+
+Los \textbf{estados de Bell} son los 4 estados maximamente entrelazados
+fundamentales en la información cuántica
+
+\begin{itemize}
+\tightlist
+\item
+  \(\vert\Phi^+\rangle = \frac{1}{\sqrt{2}}(\vert{00}\rangle + \vert{11}\rangle) = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 0 \\ 0 \\ 1 \end{bmatrix}\)
+\item
+  \(\vert\Phi^-\rangle = \frac{1}{\sqrt{2}}(\vert{00}\rangle - \vert{11}\rangle) = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 0 \\ 0 \\ -1 \end{bmatrix}\)
+\item
+  \(\vert\Psi^+\rangle = \frac{1}{\sqrt{2}}(\vert{01}\rangle + \vert{10}\rangle) = \frac{1}{\sqrt{2}}\begin{bmatrix} 0 \\ 1 \\ 1 \\ 0 \end{bmatrix}\)
+\item
+  \(\vert\Psi^-\rangle = \frac{1}{\sqrt{2}}(\vert{01}\rangle - \vert{10}\rangle) = \frac{1}{\sqrt{2}}\begin{bmatrix} 0 \\ 1 \\ -1 \\ 0 \end{bmatrix}\)
+\end{itemize}
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Rieffel, E.G., \& Polak, W.H. (2011)}. Quantum Computing: A
+  Gentle Introduction. MIT Press(Capitulo 2, Capitulo 5)
+\item
+  \textbf{Qiskit Texbook}: Single Quibit Gates \& States. IBM Quantum
+  Experience
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} En python para el calculo tensorial se utiliza la funcion kron de numPy}
+\PY{n}{ket\PYZus{}0} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{complex}\PY{p}{)}
+\PY{n}{ket\PYZus{}1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{complex}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Estados de Qubit}
+\PY{n}{base\PYZus{}constante} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{n}{ket\PYZus{}plus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}0} \PY{o}{+} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+\PY{n}{ket\PYZus{}minus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}0} \PY{o}{\PYZhy{}} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+\PY{n}{ket\PYZus{}i\PYZus{}plus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}0} \PY{o}{+} \PY{l+m+mi}{1}\PY{n}{j} \PY{o}{*} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+\PY{n}{ket\PYZus{}i\PYZus{}minus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}0} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{n}{j} \PY{o}{*} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+\PY{n}{prod\PYZus{}plus\PYZus{}minus} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vdot}\PY{p}{(}\PY{n}{ket\PYZus{}plus}\PY{p}{,} \PY{n}{ket\PYZus{}minus}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Productos tensoriales (|00\PYZgt{}, |01\PYZgt{}, |10\PYZgt{}, |11\PYZgt{}}
+\PY{n}{ket\PYZus{}00} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}0}\PY{p}{,} \PY{n}{ket\PYZus{}0}\PY{p}{)}
+\PY{n}{ket\PYZus{}01} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}0}\PY{p}{,} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+\PY{n}{ket\PYZus{}10} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}1}\PY{p}{,} \PY{n}{ket\PYZus{}0}\PY{p}{)}
+\PY{n}{ket\PYZus{}11} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}1}\PY{p}{,} \PY{n}{ket\PYZus{}1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Construccion de los estados de Bell}
+\PY{n}{bell\PYZus{}phi\PYZus{}plus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}00} \PY{o}{+} \PY{n}{ket\PYZus{}11}\PY{p}{)}
+\PY{n}{bell\PYZus{}phi\PYZus{}minus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}00} \PY{o}{\PYZhy{}} \PY{n}{ket\PYZus{}11}\PY{p}{)}
+\PY{n}{bell\PYZus{}psi\PYZus{}plus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}01} \PY{o}{+} \PY{n}{ket\PYZus{}10}\PY{p}{)}
+\PY{n}{bell\PYZus{}psi\PYZus{}minus} \PY{o}{=} \PY{n}{base\PYZus{}constante} \PY{o}{*} \PY{p}{(}\PY{n}{ket\PYZus{}01} \PY{o}{\PYZhy{}} \PY{n}{ket\PYZus{}10}\PY{p}{)}
+
+\PY{n}{estado\PYZus{}vector} \PY{o}{=} \PY{n}{Statevector}\PY{p}{(}\PY{n}{bell\PYZus{}phi\PYZus{}plus}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Estados de 1 Qubit (Bases X e Y)}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}: }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.3em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{+}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}plus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad, }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}minus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{i+}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}i\PYZus{}plus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad, }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{i\PYZhy{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text }\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}i\PYZus{}minus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{langle + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}binomial}\PY{p}{(}\PY{n}{prod\PYZus{}plus\PYZus{}minus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Estados de Bell (Entrelazamiento en }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbb}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{C}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZca{}4}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{)}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.3em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Phi\PYZca{}+}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{00}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{11}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{bell\PYZus{}phi\PYZus{}plus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Phi\PYZca{}\PYZhy{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{00}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{11}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{bell\PYZus{}phi\PYZus{}minus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Psi\PYZca{}+}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{01}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{10}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{bell\PYZus{}psi\PYZus{}plus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Psi\PYZca{}\PYZhy{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{(}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{01}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{10}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ = }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{bell\PYZus{}psi\PYZus{}minus}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+\mathbf{\text{Estados de 1 Qubit (Bases X e Y)}} &: \\[0.3em]
+\vert{+}\rangle &= \begin{bmatrix} 0.71 \\ 0.71 \end{bmatrix} \quad, \quad \vert{-}\rangle \text{ = } \begin{bmatrix} 0.71 \\ -0.71 \end{bmatrix} \\[0.5em]
+\vert{i+}\rangle &= \begin{bmatrix} 0.71 \\ 0.71i \end{bmatrix} \quad, \quad \vert{i-}\rangle \text { = } \begin{bmatrix} 0.71 \\ -0.71i \end{bmatrix} \\[0.5em]
+\langle + \vert{-}\rangle &= 0 \\[1.5em]
+\mathbf{\text{Estados de Bell (Entrelazamiento en } \mathbb{C}^4\mathbf{)}} &:\\[0.3em]
+\vert{\Phi^+}\rangle &= \frac{1}{\sqrt{2}}(\vert{00}\rangle + \vert{11}\rangle) \text{ = } \begin{bmatrix} 0.71 \\ 0 \\ 0 \\ 0.71 \end{bmatrix} \\[0.5em]
+\vert{\Phi^-}\rangle &= \frac{1}{\sqrt{2}}(\vert{00}\rangle - \vert{11}\rangle) \text{ = } \begin{bmatrix} 0.71 \\ 0 \\ 0 \\ -0.71 \end{bmatrix} \\[0.5em]
+\vert{\Psi^+}\rangle &= \frac{1}{\sqrt{2}}(\vert{01}\rangle + \vert{10}\rangle) \text{ = } \begin{bmatrix} 0 \\ 0.71 \\ 0.71 \\ 0 \end{bmatrix} \\[0.5em]
+\vert{\Psi^-}\rangle &= \frac{1}{\sqrt{2}}(\vert{01}\rangle - \vert{10}\rangle) \text{ = } \begin{bmatrix} 0 \\ 0.71 \\ -0.71 \\ 0 \end{bmatrix}
+\end{aligned}
+$
+
+    
+    \subsection{\texorpdfstring{A partir de los vectores estado creados,
+encuentra la base computacional de
+\(\mathbb{C}^4\)}{A partir de los vectores estado creados, encuentra la base computacional de \textbackslash mathbb\{C\}\^{}4}}\label{a-partir-de-los-vectores-estado-creados-encuentra-la-base-computacional-de-mathbbc4}
+
+Para un sistema de 2 qubits, el espacio de estados es
+\(\mathbb{C}^4 (\mathbb{C}^2 \otimes \mathbb{C}^2)\)
+
+La base de computacion de \(\mathbb{C}^4\) es el conjunto de los 4
+estados canónicos (o estados puros) sin superposición, formados por el
+producto tensorial (\(\otimes\)) de la base de 1 qubit
+\(\{\vert{}0\rangle, \vert{}1\rangle\}\): \[
+\mathcal{B}_{\mathbb{C}^4} = \{\vert{00}\rangle, \vert{01}\rangle, \vert{10}\rangle, \vert{11}\rangle\}
+\]
+
+Donde el orden canónico en álgebra de matriz columna es: -
+\(\vert{00}\rangle = \vert{0}\rangle \otimes \vert{0}\rangle:\)
+Representa el estado \(0\) en binario (\(00_2 = 0\)). -
+\(\vert{01}\rangle = \vert{0}\rangle \otimes \vert{1}\rangle:\)
+Representa el estado \(1\) en binario (\(01_2 = 1\)). -
+\(\vert{10}\rangle = \vert{1}\rangle \otimes \vert{0}\rangle:\)
+Representa el estado \(2\) en binario (\(10_2 = 2\)). -
+\(\vert{11}\rangle = \vert{1}\rangle \otimes \vert{1}\rangle:\)
+Representa el estado \(3\) en binario (\(11_2 = 3\)).
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Rieffel, E.G., \& Polak, W.H. (2011)}. Quantum Computing: A
+  Gentle Introduction. MIT Press(Capitulo 2, Capitulo 5)
+\item
+  \textbf{Qiskit Texbook}: Single Quibit Gates \& States. IBM Quantum
+  Experience
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{state\PYZus{}vector\PYZus{}00} \PY{o}{=} \PY{n}{Statevector}\PY{o}{.}\PY{n}{from\PYZus{}label}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{00}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{state\PYZus{}vector\PYZus{}01} \PY{o}{=} \PY{n}{Statevector}\PY{o}{.}\PY{n}{from\PYZus{}label}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{state\PYZus{}vector\PYZus{}10} \PY{o}{=} \PY{n}{Statevector}\PY{o}{.}\PY{n}{from\PYZus{}label}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{state\PYZus{}vector\PYZus{}11} \PY{o}{=} \PY{n}{Statevector}\PY{o}{.}\PY{n}{from\PYZus{}label}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbb}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Base Computacional Canónica de }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbb}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{C}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZca{}4 }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{00}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{0}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{otimes }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{0}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}00}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad , }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{01}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{0}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{otimes }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}01}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{10}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{otimes }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{0}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}10}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad , }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{11}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{otimes }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}11}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+\mathbb{\text{Base Computacional Canónica de } \mathbb{C}^4 } &:\\
+\vert{00}\rangle &= \vert{0}\rangle \otimes \vert{0}\rangle = \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \end{bmatrix} \quad , \quad \vert{01}\rangle = \vert{0}\rangle \otimes \vert{1}\rangle = \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix} \\[1em]
+\vert{10}\rangle &= \vert{1}\rangle \otimes \vert{0}\rangle = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix} \quad , \quad \vert{11}\rangle = \vert{1}\rangle \otimes \vert{1}\rangle = \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix} \\
+\end{aligned}
+$
+
+    
+    Para que un conjunto de vectores \(\vert{}\psi_i\rangle\) sea
+\textbf{ortonormal}, debe cumplir con 2 cosas a través del
+\textbf{producto interno} (producto escalar complejo
+\(\langle\psi_i\vert{\psi_j}\rangle\)): 1. \textbf{Ortogonalidad}: El
+producto interno entre 2 vectores diferentes debe ser exactamente
+\(0(\langle\psi_i\vert{\psi_j}\rangle = 0 \text{ si } i \neq j )\). No
+interfieren entre si. 2. \textbf{Normalización}: El producto interno de
+un vector consigo mismo debe ser exactamente 1
+(\(\langle\psi_i\vert{\psi_j\rangle} = 1\)). La probabilidad total de
+encontrar el sistema suma 100\%
+
+En notación matemática, esto se resume con la delta de
+\textbf{Kronecker}
+\(\langle \phi_i \vert{\phi_j} \rangle = \delta_{ij}\)
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strang, G. (2016)}. Introduction to Linear Algebra (5th ed.).
+  Wellesley-Cambridge Press. (Capítulo 4).
+\item
+  \textbf{Rieffel, E.G., \& Polak, W.H. (2011)}. Quantum Computing: A
+  Gentle Introduction. MIT Press(Capitulo 2)
+\item
+  \textbf{Qiskit Texbook}: Single Quibit Gates \& States. IBM Quantum
+  Experience
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} En python el producto interno entre dos cectores complejos se calcula con la funcion np.vdor(phi, psi)}
+
+\PY{n}{base\PYZus{}c4} \PY{o}{=} \PY{p}{[}\PY{n}{ket\PYZus{}00}\PY{p}{,} \PY{n}{ket\PYZus{}01}\PY{p}{,} \PY{n}{ket\PYZus{}10}\PY{p}{,} \PY{n}{ket\PYZus{}11}\PY{p}{]}
+\PY{c+c1}{\PYZsh{} Construimos la matriz de GRAM}
+\PY{n}{matriz\PYZus{}gram} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{complex}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+        \PY{n}{matriz\PYZus{}gram}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vdot}\PY{p}{(}\PY{n}{base\PYZus{}c4}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{base\PYZus{}c4}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{es\PYZus{}ortonormal} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{matriz\PYZus{}gram}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Matriz de productos Internos}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{langle }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{phi\PYZus{}i}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{phi\PYZus{}j}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}: }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{M\PYZus{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Gram}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{matriz\PYZus{}gram}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[0.8em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Es la matriz Identidad?}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{es\PYZus{}ortonormal}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad (}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ij}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{) }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{therefore }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{La base }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{00}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle, }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{01}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle, }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{10}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle, }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{11}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ es estrictamente }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ORTONORMAL}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+\text{Matriz de productos Internos} \langle \phi_i\vert{\phi_j}\rangle &: \\
+M_{\text{Gram}} &= \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix} \\[0.8em]
+\text{Es la matriz Identidad?} &\implies \mathbf{True} \quad (\delta{ij}) \\
+\therefore \text{La base } &\{\vert{00}\rangle, \vert{01}\rangle, \vert{10}\rangle, \vert{11}\rangle\} \text{ es estrictamente } \mathbf{\text{ORTONORMAL}}
+\end{aligned}
+$
+
+    
+    \subsection{Demostración de Ortonormalidad de la Base de
+Bell}\label{demostraciuxf3n-de-ortonormalidad-de-la-base-de-bell}
+
+Asi como comprobamos que la base computacional
+\(\{\vert{00}\rangle, \vert{01}\rangle, \vert{10}\rangle, \vert{11}\rangle\}\)
+es ortonormal ( su matriz de productos internos es la Identidad
+\emph{\(I\)} ), Los \textbf{Estados de Bell} forman una base alternativa
+fundamental llamada \textbf{Base de Bell}.
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strang, G. (2016)}. Introduction to Linear Algebra (5th ed.).
+  Wellesley-Cambridge Press. (Capítulo 4).
+\item
+  \textbf{Rieffel, E.G., \& Polak, W.H. (2011)}. Quantum Computing: A
+  Gentle Introduction. MIT Press(Capitulo 5)
+\item
+  \textbf{Qiskit Texbook}: Single Quibit Gates \& States. IBM Quantum
+  Experience
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{base\PYZus{}bell} \PY{o}{=} \PY{p}{[}\PY{n}{bell\PYZus{}phi\PYZus{}plus}\PY{p}{,} \PY{n}{bell\PYZus{}phi\PYZus{}minus}\PY{p}{,} \PY{n}{bell\PYZus{}psi\PYZus{}plus}\PY{p}{,} \PY{n}{bell\PYZus{}psi\PYZus{}minus}\PY{p}{]}
+\PY{n}{gram\PYZus{}bell} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{complex}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{:}
+        \PY{n}{gram\PYZus{}bell}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vdot}\PY{p}{(}\PY{n}{base\PYZus{}bell}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{base\PYZus{}bell}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{es\PYZus{}bell\PYZus{}ortonormal} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{gram\PYZus{}bell}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Matriz de Productos Internos para la Base de Bell }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ :}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{M\PYZus{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Gram (Bell)}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}matriz}\PY{p}{(}\PY{n}{gram\PYZus{}bell}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Es la matriz Identidad? }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{implies }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+si}{\PYZob{}}\PY{n}{es\PYZus{}bell\PYZus{}ortonormal}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{therefore }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{La Base de Bell }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{|}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Phi\PYZca{}+}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle, |}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Phi\PYZca{}\PYZhy{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle, |}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Psi\PYZca{}+}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle, |}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Psi\PYZca{}\PYZhy{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ forma una }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{BASE ORTONORMAL}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{ en }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbb}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{C}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZca{}4.}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned} 
+\text{Matriz de Productos Internos para la Base de Bell } :\\
+M_{\text{Gram (Bell)}} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix} \\
+\text{Es la matriz Identidad? } \implies \mathbf{True} \\
+\therefore \text{La Base de Bell } \{|\Phi^+\rangle, |\Phi^-\rangle, |\Psi^+\rangle, |\Psi^-\rangle\} \\
+\text{ forma una } \mathbf{\text{BASE ORTONORMAL}} \text{ en } \mathbb{C}^4.
+\end{aligned}
+$
+
+    
+    \subsection{Sistema de 3 Qubits}\label{sistema-de-3-qubits}
+
+Para trabajar con 3 qubits como \(\vert{000}\rangle\) o
+\(\vert{111}\rangle\), el espacio de estos pasa a ser
+\(\mathbb{C}^8 (\mathbb{C}^2 \otimes \mathbb{C}^2 \otimes \mathbb{C}^2)\).
+
+Los 2 vectores canónicos base de 3 qubits que necesitamos son: 1.
+\(\vert{000}\rangle = \vert{0}\rangle \otimes \vert{0}\rangle \otimes \vert{0}\rangle\):
+Un vector columna de 8 elementos con un 1 en la primera posición. 2.
+\(\vert{111}\rangle = \vert{1}\rangle \otimes \vert{1}\rangle \otimes \vert{1}\rangle\):
+Un vector columna de 8 elementos con un 1 en la última posición.
+
+\subsubsection{Encontrar los siguientes
+vectores}\label{encontrar-los-siguientes-vectores}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(\frac{1}{\sqrt{2}}\vert{000}\rangle + \frac{1}{\sqrt{2}}\vert{111}\rangle\)
+\item
+  \(\frac{i}{\sqrt{2}}\vert{000}\rangle - \frac{1}{\sqrt{2}}\vert{111}\rangle\)
+\item
+  \(\frac{1}{\sqrt{2}}\vert{000}\rangle + \frac{i}{\sqrt{2}}\vert{111}\rangle\)
+\end{enumerate}
+
+\paragraph{Fuentes}\label{fuentes}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Rieffel, E.G., \& Polak, W.H. (2011)}. Quantum Computing: A
+  Gentle Introduction. MIT Press(Capitulo 5)
+\item
+  \textbf{Qiskit Texbook}: Single Quibit Gates \& States. IBM Quantum
+  Experience
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ket\PYZus{}000} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}0}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}0}\PY{p}{,} \PY{n}{ket\PYZus{}0}\PY{p}{)}\PY{p}{)}
+\PY{n}{ket\PYZus{}111} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}1}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{kron}\PY{p}{(}\PY{n}{ket\PYZus{}1}\PY{p}{,} \PY{n}{ket\PYZus{}1}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{psi\PYZus{}1} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{ket\PYZus{}000} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{ket\PYZus{}111}
+\PY{n}{psi\PYZus{}2} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1}\PY{n}{j}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{ket\PYZus{}000} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{ket\PYZus{}111}
+\PY{n}{psi\PYZus{}3} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{ket\PYZus{}000} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{n}{j}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{ket\PYZus{}111}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{Math}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{begin}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbf}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{text}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{Base de 3 Qubits en }\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mathbb}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{C}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZca{}8}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{ \PYZam{}:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{000}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}000}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad , }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{quad }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{111}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{ket\PYZus{}111}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1.5em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{psi\PYZus{}1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{000}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{111}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{psi\PYZus{}1}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{psi\PYZus{}2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{i}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{000}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{111}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{psi\PYZus{}2}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{[1em]}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{psi\PYZus{}3}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle \PYZam{}= }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{1}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{000}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle + }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{i}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sqrt}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{2}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{vert}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{111}\PY{l+s+se}{\PYZcb{}\PYZcb{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{rangle = }\PY{l+s+si}{\PYZob{}}\PY{n}{formato\PYZus{}vector}\PY{p}{(}\PY{n}{psi\PYZus{}3}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{end}\PY{l+s+se}{\PYZob{}\PYZob{}}\PY{l+s+s2}{aligned}\PY{l+s+se}{\PYZcb{}\PYZcb{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle 
+\begin{aligned}
+\mathbf{\text{Base de 3 Qubits en } \mathbb{C}^8} &:\\
+\vert{000}\rangle &= \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix} \quad , \quad \vert{111}\rangle = \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{bmatrix} \\[1.5em]
+\vert{\psi_1}\rangle &= \frac{1}{\sqrt{2}}\vert{000}\rangle + \frac{1}{\sqrt{2}}\vert{111}\rangle = \begin{bmatrix} 0.71 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0.71 \end{bmatrix} \\[1em]
+\vert{\psi_2}\rangle &= \frac{i}{\sqrt{2}}\vert{000}\rangle - \frac{1}{\sqrt{2}}\vert{111}\rangle = \begin{bmatrix} 0.71i \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ -0.71 \end{bmatrix} \\[1em]
+\vert{\psi_3}\rangle &= \frac{1}{\sqrt{2}}\vert{000}\rangle + \frac{i}{\sqrt{2}}\vert{111}\rangle = \begin{bmatrix} 0.71 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0.71i \end{bmatrix}
+\end{aligned}
+$
+
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

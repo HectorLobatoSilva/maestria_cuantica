@@ -1,0 +1,21 @@
+% 1. Interlineado 1.5
+\usepackage{setspace}
+\onehalfspacing
+
+% 2. Fuente Calibri (Forzar Calibri como fuente principal y sans-serif global)
+\usepackage{fontspec}
+\setmainfont{Calibri}
+\setsansfont{Calibri}
+\renewcommand{\familydefault}{\sfdefault}
+
+% 3. Metadatos del PDF (Título y Autor para las propiedades del archivo)
+\usepackage{hyperref}
+\hypersetup{
+    pdftitle={Laboratorio 1. Operaciones},
+    pdfauthor={Héctor Lobato Silva}
+}
+
+% 4. Portada / Título en el documento impreso
+\title{Laboratorio 1. Operaciones}
+\author{Héctor Lobato Silva}
+\date{\today}

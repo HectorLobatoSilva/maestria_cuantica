@@ -1,0 +1,41 @@
+\chapter{Desarrollo}
+
+\section{¿En qué consisten los métodos de modulación PCM y PPM? ¿Por qué se afirma que intercambian ancho de banda por la relación señal/ruido?}
+\subsection{PCM}
+por sus siglas en inglés (Pulse-Code Modulation), es el método estándar para convertir señales analógicas (como señales de onda de sonido continuo) en datos digitales (como 0 y 1). En un sistema PCM, la señal analógica se muestra, se comprime, se cuantifica y se codifica para construir la señal final. 
+\subsection{PPM}
+por sus siglas en inglés (Pulse-Position Modulation), es una técnica donde la amplitud y el ancho del pulso se mantienen constantes, pero la información se transmite alterando la posición en el momento exacto en el que se envía dicho pulso dentro de un intervalo de tiempo.
+
+\bigskip % 
+Se afirma que intercambian ancho de banda por relación señal/ruido porque podemos enviar un mensaje claro a través de un canal que tiene mucha interferencia o ruido ambiental, pero el “costo” de superar ese ruido es ocupar una mayor porción del ancho de banda para transmitir datos. 
+\section{Claude Shannon da tres motivos por los que se usa una medición logarítmica. ¿Estás de acuerdo con estos motivos? ¿Por qué sí o por qué no? Da tres razones por las que estás de acuerdo o en desacuerdo.}
+Si estoy de acuerdo con el uso de logaritmo como función de medida, como la alternativa es usar la “cantidad bruta” de posibilidades significa realizar una reformulación torpe de las ecuaciones, el uso de logaritmo simplifica en gran medida las matemáticas necesarias para el cálculo de la medición 
+\begin{enumerate}
+  \item Como menciona Shannon al usar logaritmo, podemos hacer comparaciones lineales de forma intuitiva, simplificando las matemáticas. 
+  \item Generalmente las operaciones de límites son mucho más fáciles de expresar en términos de logaritmo como lo menciona Shannon. 
+  \item Permite definir la unidad de medida en bits, al usar el logaritmo base 2, las unidades resultantes se pueden llamar dígitos binarios (bits), la base 2 no es la única aplicable, pero si es la más fácil de implementar y la más común. 
+\end{enumerate}
+\section{¿Qué conclusiones se pueden extraer de la gráfica de la entropía frente a la probabilidad de la figura 7? Analiza los casos $p=0$, $p=0,5$ y $p=1$.}
+La grafica muestra el comportamiento de la entropía, en un escenario donde solamente existen 2 posibilidades, las cuales matemáticamente podemos escribir como $q = (1 - p)$
+
+Para los casos $p = 0$, $p = 1$ , tenemos que el valor de la entropía es 0 , esto es debido ya que Shannon establece que la primera propiedad $H = 0$ si y solo si, todas las probabilidades menos una son cero, teniendo esta única probabilidad el valor de la unidad, en otras palabras, la entropía desaparece únicamente cuando estamos seguros del resultado.
+
+Para el caso de $p = 0.5$ la curva de la gráfica alcanza su punto máximo, llegando a 1 bit, esto de acuerdo con la teoría que dice, que para un numero de opciones, la entropía $H$ es máxima cuando todos los eventos son equiprobables, como solo hay dos probabilidades en este caso, la incertidumbre máxima se da cuando la probabilidad es $1/2$ o $0.5$ , matemáticamente tenemos $H = -2 \cdot (0.5 \log_2 0.5) = 1 \text{ bit}$ 
+
+\section{¿Qué relación existe entre la entropía y la capacidad para un canal sin ruido?}
+
+El teorema 9 justifica la interpretación de la entropía $H$ como la verdadera tasa de generación de información de una fuente, entonces, $H$ es el factor que determina que capacidad del canal se requiere para lograr la codificación más eficiente posible.
+
+Entonces tenemos que $H$ representa el límite inferior en número de bits por símbolo que, en promedio, se necesitan para representar cada símbolo por la fuente sin perder informacion.
+
+$C$ Se mide en bits por segundo. Es la tasa máxima posible de transmisión del canal
+
+$\frac{C}{H}$ Nos indica la cantidad máxima de símbolos que se pueden transmitir por segundo sin pérdida de información.
+
+El teorema abarca 2 realidades del límite $\frac{C}{H}$, la primera $\frac{C}{H} - \varepsilon$representa matemáticamente la salida de la fuente que logre transmitir una tasa promedio a través del canal, es decir, puede acercarse muchísimo al límite ideal.
+
+La segunda, Shannon demuestra que es físicamente imposible transmitir a una tasa promedio mayor a $\frac{C}{H}$ 
+\section{¿Qué efectos puede tener sobre la velocidad de transmisión de un mensaje el envío redundante de la información? ¿Qué relación tiene esto con la capacidad del canal?}
+R. En contra de lo que normalmente pensaríamos la transmisión redundante de la información NO reduce la probabilidad de error del sistema, solamente incrementa la tasa (velocidad) de transmisión del canal inevitablemente a cero, volviendo la comunicación extremadamente ineficiente, Shannon demuestra que no es necesario sacrificar la velocidad llevándola a cero, para eliminar los errores del sistema.
+
+Relacionándolo con el canal, es posible enviar información a una tasa exacta de $C$ a través del canal, logrando que la frecuencia de errores sea tan pequeña como se desee, mediante una codificación adecuada, existe la condición de que la tasa de transmisión sea menor a $C$ , Shannon demuestra que si se desea transmitir a una capacidad mayor del canal, inevitablemente habrá una pérdida de información, en otras palabras, no es posible transmitir más información de forma correcta que el límite estricto de $C$ 

@@ -1,0 +1,51 @@
+\documentclass[a4paper,11pt,oneside]{book}
+
+% 1. Cargar el diseño modular desde la carpeta vecina
+\makeatletter
+\def\input@path{{../plantilla/}}
+\makeatother
+\usepackage{unir_master}
+
+% 2. Bibliografía APA 7 específica de esta actividad
+\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
+\addbibresource{referencias.bib}
+
+% 3. Tus variables obligatorias (Se rellenan solas en la portada y PDF)
+\docTitle{Análisis del artículo «Una teoría matemática de la información» }
+\subject{Matemáticas de la Información}
+\docAuthor{Héctor Lobato Silva}
+\professor{Dr. Miguel Alejandro Medina Armendariz}
+\docDate{\today}
+\keywordsEs{Quantum, Grover, Algoritmos}
+
+\includeonly{
+  resumen,
+  abstract,
+  introduccion,
+  desarrollo
+}
+
+%========================================================================%
+\begin{document}
+
+    % Páginas de control iniciales
+    \frontmatter
+    \pagestyle{frontmatter}
+    \maketitle
+    \tableofcontents
+    \clearpage
+
+    % El Desarrollo del Trabajo Modular
+    \mainmatter
+    \pagestyle{mainmatter}
+    
+    \include{resumen}
+    \include{abstract}
+    \include{introduccion}
+    \include{desarrollo}
+
+    % Bibliografía final
+    \backmatter
+    \printbibliography[title={Bibliografía}]
+
+\end{document}

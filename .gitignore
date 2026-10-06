@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# LaTeX
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.out
+*.toc
+*.run.xml
+*.synctex.gz
+*.pdf
+*.log
+
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Archives
+*.zip
+
+# Python
+__pycache__/

@@ -1,0 +1,169 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{unir_master}[2026/09/20 Plantilla Oficial Modular UNIR]
+
+%========================================================================%
+% Paquetes Críticos y Tipografía para XeLaTeX
+%========================================================================%
+\RequirePackage{fontspec}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{graphicx}
+\RequirePackage{xstring}
+\RequirePackage{etoolbox}
+\RequirePackage{float}
+\RequirePackage{tabularx}
+\RequirePackage[font=small,skip=2pt]{caption}
+\RequirePackage{subcaption}
+\captionsetup{within=none}
+\RequirePackage{wrapfig}
+\RequirePackage{multicol}
+\RequirePackage{eurosym}
+\RequirePackage{footmisc}
+\RequirePackage{booktabs}
+\RequirePackage[spanish]{babel}
+\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage{geometry}
+\RequirePackage{lastpage}
+\RequirePackage{fancyhdr}
+\RequirePackage{array}
+\RequirePackage{setspace}
+\RequirePackage[autostyle=true]{csquotes}
+
+% CORRECCIÓN ERROR 1: hyperref va PRIMERO, luego hyperxmp
+\RequirePackage[colorlinks=true, linkcolor=black, urlcolor=azul, citecolor=black]{hyperref}
+\RequirePackage{hyperxmp}
+\RequirePackage{titlesec}
+
+% Formato de los capítulos (ej. "1. Desarrollo")
+\titleformat{\chapter}[hang]{\Huge\bfseries\color{azul}}{\thechapter.\quad}{0pt}{\Huge\bfseries}
+
+
+% Forzar a XeLaTeX a buscar imágenes en la carpeta del paquete también
+\graphicspath{{../plantilla/}{./}}
+
+% Traducciones específicas
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Índice de Tablas}}
+\addto\captionsspanish{\renewcommand{\contentsname}{Índice de contenidos}}
+
+% CORRECCIÓN ERRORES 2 y 3: Buscar las fuentes por su nombre de archivo nativo de LaTeX (.otf)
+\newfontfamily\georgiafont{texgyrepagella-regular.otf}[
+    BoldFont = texgyrepagella-bold.otf,
+    ItalicFont = texgyrepagella-italic.otf,
+    BoldItalicFont = texgyrepagella-bolditalic.otf
+]
+\newfontfamily\cambriafont{texgyretermes-regular.otf}[
+    BoldFont = texgyretermes-bold.otf,
+    ItalicFont = texgyretermes-italic.otf,
+    BoldItalicFont = texgyretermes-bolditalic.otf
+]
+\newcommand{\georgiab}{\georgiafont\bfseries}
+\newcommand{\georgiamd}{\georgiafont}
+\newcommand{\cambriamd}{\cambriafont}
+
+% Colores Institucionales
+\definecolor{azul}{RGB}{81, 131, 187}
+\def\azul{\color{azul}}
+\def\an{\bfseries\azul}
+
+% Márgenes Oficiales
+\geometry{
+    paper=a4paper, left=3.5cm, right=1.5cm, top=2.5cm, bottom=2.5cm,
+    headheight=0.75cm, headsep=1.5cm, footskip=1.5cm
+}
+
+\setstretch{1.5}
+
+%========================================================================%
+% Variables del Sistema Automatizadas
+%========================================================================%
+\makeatletter
+\def\docAuthor#1{\author{#1}\xdef\docAuthorV{#1}}
+\def\docTitle#1{\title{#1}\xdef\docTitleV{#1}}
+\def\docDate#1{\date{#1}\xdef\docDateV{#1}}
+\def\professor#1{\gdef\\@professor{#1}\xdef\professorV{#1}}
+\def\subject#1{\gdef\@subject{#1}\xdef\subjectV{#1}}
+\def\university#1{\gdef\\@university{#1}\xdef\universityV{#1}}
+\def\school#1{\gdef\\@school{#1}\xdef\schoolV{#1}}
+\def\degree#1{\gdef\\@degree{#1}\xdef\degreeV{#1}}
+\def\docType#1{\gdef\\@docType{#1}\xdef\docTypeV{#1}}
+\def\city#1{\gdef\\@city{#1}\xdef\cityV{#1}}
+\def\docAuthor#1{\author{#1}\gdef\docAuthorV{#1}}
+\def\docTitle#1{\title{#1}\gdef\docTitleV{#1}}
+\def\docDate#1{\date{#1}\gdef\docDateV{#1}}
+\def\professor#1{\gdef\@professor{#1}\gdef\professorV{#1}}
+\def\subject#1{\gdef\@subject{#1}\gdef\subjectV{#1}}
+\def\university#1{\gdef\@university{#1}\gdef\universityV{#1}}
+\def\school#1{\gdef\@school{#1}\gdef\schoolV{#1}}
+\def\degree#1{\gdef\@degree{#1}\gdef\degreeV{#1}}
+\def\docType#1{\gdef\@docType{#1}\gdef\docTypeV{#1}}
+\def\city#1{\gdef\@city{#1}\gdef\cityV{#1}}
+\gdef\keywords#1{\gdef\keywordsV{#1}}
+\gdef\keywordsEs#1{\gdef\keywordsEsV{#1}}
+
+% Valores por defecto para ahorrar escribir en cada actividad
+\university{Universidad Internacional de la Rioja (UNIR)}
+\school{Escuela Superior de Ingeniería y Tecnología}
+\degree{Maestria en Computación Cuántica}
+\docType{Actividad Académica}
+\city{Santa Catarina, Nuevo León, Mexico}
+\makeatother
+
+\def\n{\bfseries}
+\newcolumntype{L}[1]{>{\hsize=#1\hsize\raggedright\arraybackslash}X}%
+
+%========================================================================%
+% Configuración de Encabezados y Estilos de Página
+%========================================================================%
+\pagestyle{fancy}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
+\fancypagestyle{mainmatter}{%
+    \fancyhead{} \lhead{{\color{azul}\docAuthorV}} \rhead{\degreeV}
+    \lfoot{{\color{azul}\docTitleV}} \cfoot{} \rfoot{\thepage\ de \getpagerefnumber{LastPage}}
+}
+
+\fancypagestyle{frontmatter}{%
+    \fancyhead{} \lhead{{\color{azul}\docAuthorV}} \rhead{\degreeV}
+    \lfoot{{\color{azul}\docTitleV}} \cfoot{} \rfoot{\thepage}
+}
+
+%========================================================================%
+% Generación Automática de Portada Oficial
+%========================================================================%
+\renewcommand*{\maketitle}{%
+    \begin{titlepage}%
+        {\flushleft{\includegraphics[width=8.18cm]{logo-UNIR.pdf}}\par}\vspace{1cm}
+        \begin{table}[h!]
+        \hyphenpenalty=10000 \setlength\arrayrulewidth{1pt}
+            \begin{tabularx}{\textwidth}{@{\hspace{1.5cm}} !{\color{azul}\vline} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}X }
+                \fontsize{15}{22}\selectfont \georgiamd \universityV\\[0.25cm]
+                \fontsize{15}{22}\selectfont \georgiamd \schoolV \\[0.25cm]
+                \fontsize{15}{22}\selectfont \georgiamd \degreeV \\[1.2cm]
+                \fontsize{36}{42}\selectfont \cambriamd \color{azul} \docTitleV \\
+            \end{tabularx}
+        \end{table}
+        \vspace{0.5cm}
+        {\flushleft \fontsize{11}{11}\selectfont 
+            \georgiab \docTypeV\par\vspace{0.4cm}
+            \georgiab Asignatura: \georgiamd \subjectV \par\vspace{0.4cm}
+            Presentado por: \georgiamd \docAuthorV \par\vspace{0.4cm}
+            \georgiab Profesor: \georgiamd \professorV \par\vspace{2.5cm}
+            {\color{azul}%
+            \georgiab Ciudad: \georgiamd \cityV \par
+            \georgiab Fecha: \georgiamd \docDateV \par}
+        }
+    \end{titlepage}
+    
+    % Auto-inyectar metadatos en el PDF generado
+    \hypersetup{
+        pdftitle={\docTitleV},
+        pdfauthor={\docAuthorV},
+        pdfsubject={\subjectV},
+        pdfkeywords={\keywordsEsV}
+    }
+}
+
+% CORRECCIÓN ERROR 4: Se eliminó \end{document} de aquí.
+\endinput

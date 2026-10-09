@@ -1,0 +1,694 @@
+\documentclass[a4paper,11pt,oneside]{book}
+
+%========================================================================%
+\usepackage{courier}
+\usepackage[utf8]{inputenc}   
+\usepackage[T1]{fontenc}      
+
+\usepackage{graphicx}
+\usepackage{xstring}
+\usepackage{etoolbox}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[font=small,skip=2pt]{caption}
+\usepackage{subcaption}
+\captionsetup{within=none}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{eurosym}
+\usepackage{footmisc}
+\usepackage{hyperref}
+\usepackage{hyperxmp}
+\usepackage{booktabs}
+\usepackage[toc,page,title,titletoc]{appendix} % úsalo solo si agregas apéndices
+\renewcommand*\appendixpagename{Apéndices}
+
+\usepackage[spanish]{babel}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Índice de Tablas}}
+
+% TikZ se carga DESPUÉS de babel: el español vuelve activos los símbolos < y >,
+% y la librería 'babel' de TikZ es la que evita que eso rompa las flechas.
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,babel}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{azul}{RGB}{81, 131, 187}   % Azul institucional UNIR
+\def\azul{\color{azul}}
+\def\an{\bfseries\azul}
+
+\usepackage{geometry}
+\geometry{
+    paper=a4paper,
+    left=3.5cm,
+    right=1.5cm,
+    top=2.5cm,
+    bottom=2.5cm,
+    headheight=0.75cm,
+    headsep=1.5cm,
+    footskip=1.5cm,
+}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
+\usepackage{array}
+\usepackage{setspace}
+\setstretch{1.5}
+\usepackage[autostyle=true]{csquotes}
+
+% Bibliografía en formato APA (7.ª ed.) real, vía el paquete biblatex-apa:
+% sangría francesa, orden alfabético autor-año, "et al." según reglas APA.
+\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
+\addbibresource{referencias.bib}
+\renewcommand*{\cite}[1]{\parencite{#1}}
+\newcommand*{\apa}[1]{\citeauthor{#1} (\citeyear{#1})}
+\usepackage{ifxetex,ifluatex}
+\newif\ifxetexorluatex
+\ifxetex\xetexorluatextrue\fi
+\ifluatex\xetexorluatextrue\fi
+
+\ifxetexorluatex
+    \usepackage{fontspec}
+    \newfontfamily\georgiafont{TeX Gyre Pagella}   % sustituto libre de Georgia
+    \newfontfamily\cambriafont{TeX Gyre Termes}    % sustituto libre de Cambria
+    \newcommand{\georgiab}{\georgiafont\bfseries}
+    \newcommand{\georgiamd}{\georgiafont}
+    \newcommand{\cambriamd}{\cambriafont}
+\else
+    \newcommand{\georgiab}{\rmfamily\bfseries}
+    \newcommand{\georgiamd}{\rmfamily\mdseries}
+    \newcommand{\cambriamd}{\rmfamily\mdseries}
+\fi
+
+%========================================================================%
+\makeatletter
+\def\autor#1{\author{#1}}
+\def\titulo#1{\title{#1}}
+\def\fecha#1{\date{#1}}
+\def\universidad#1{\gdef\@universidad{#1}}
+\def\escuela#1{\gdef\@escuela{#1}}
+\def\master#1{\gdef\@master{#1}}
+\def\tipoTesis#1{\gdef\@tipoTesis{#1}}
+\def\director#1{\gdef\@director{#1}}
+\def\ciudad#1{\gdef\@ciudad{#1}}
+\gdef\keywords#1{\gdef\keywordsv{#1}}
+\gdef\keywordsEs#1{\gdef\keywordsESv{#1}}
+\makeatother
+
+\def\n{\bfseries}
+\def\glmtr{\guillemotright}
+\def\glmtl{\guillemotleft}
+
+\newcolumntype{L}[1]{>{\hsize=#1\hsize\raggedright\arraybackslash}X}%
+\newcolumntype{R}[1]{>{\hsize=#1\hsize\raggedleft\arraybackslash}X}%
+\newcolumntype{C}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}%
+\newcommand{\cc}[1]{\begin{minipage}[c][0.5cm][c]{0.5cm}\centering#1\end{minipage}}
+
+\newenvironment{codigo}{
+    \begin{minipage}[t][][t]{0.7\textwidth}
+    \ttfamily \small \linespread{0}
+}{
+    \end{minipage}
+}
+\newcommand{\cod}{\ttfamily \small \linespread{0}}
+
+\newenvironment{abstract}[1][Resumen]{%
+    \begin{center}%
+        {\fontsize{14}{14}\selectfont\bfseries #1\vspace{-0.5em}}%
+    \end{center}%
+    \quotation
+}{\endquotation\vspace{1cm}}
+
+%========================================================================%
+\hypersetup{
+    pdfpagemode={UseOutlines},
+    bookmarksopen=true,
+    bookmarksopenlevel=0,
+    hypertexnames=false,
+    colorlinks=true,
+    pdfborder={0 0 0},
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdfstartview={FitV},
+    breaklinks=true
+}
+
+% Encabezado
+\fancypagestyle{mainmatter}{%
+    \fancyhead{}%
+    \lhead{{\color{azul}Actividad grupal}}%
+    \chead{}%
+    \rhead{\masterv}%
+    \lfoot{{\color{azul}Computación neuromórfica}}%
+    \cfoot{}%
+    \rfoot{\thepage\ de \getpagerefnumber{LastPage}}}
+
+\fancypagestyle{frontmatter}{%
+    \fancyhead{}%
+    \lhead{{\color{azul}Actividad grupal}}%
+    \chead{}%
+    \rhead{\masterv}%
+    \lfoot{{\color{azul}Computación neuromórfica}}%
+    \cfoot{}%
+    \rfoot{\thepage}}
+
+%========================================================================%
+\renewcommand*{\maketitle}{%
+    \begin{titlepage}%
+        {\flushleft%
+            {\includegraphics[width=8.18cm]{logo-UNIR.pdf}}\par
+        }%
+        \vspace{1cm}
+        \begin{table}[h!]
+        \hyphenpenalty=10000
+        \setlength\arrayrulewidth{2pt}
+            \begin{tabularx}{14.5cm}{ L{0.074} !{\color{azul}\vline}  L{0.931} }
+                & \\
+                & \fontsize{14}{14}\selectfont \georgiab \universidadv\\
+                & \\
+                & \fontsize{18}{18}\selectfont \georgiab \escuelav \\
+                & \\
+                & \fontsize{14}{14}\selectfont  \georgiab\masterv \\
+                & \\ & \\ & \\
+                & \fontsize{42}{42}\selectfont \cambriamd \color{azul}   \titulov \\
+            \end{tabularx}
+        \end{table}
+        \vspace{0.5cm}
+        {\flushleft \fontsize{11}{11}\selectfont %
+            \georgiab \tipoTesisv\par
+                \vspace{0.5cm}
+                Presentado por: \georgiamd \autorv \par
+                \vspace{0.5cm}
+                \georgiab Director: \georgiamd \directorv \par
+                \vspace{3cm}
+                {\color{azul}%
+                \georgiab Ciudad: \georgiamd \ciudadv \par
+                \georgiab Fecha: \georgiamd \fechav \par}
+        }
+    \end{titlepage}}
+
+%========================================================================%
+% NOTAS AL EQUIPO. Se ven en rojo en el PDF para no perderlas de vista.
+% Al resolver cada una, bórrala. Antes de entregar no debe quedar ninguna.
+\newcommand{\equipo}[1]{{\color{red}\textbf{[EQUIPO]} \textit{#1}}}
+
+%========================================================================%
+\titulo{¿Qué retos plantean los nuevos modelos de computación?}
+\autor{Benjamín David Salín Monroy, Héctor Lobato Silva, Nora Arroyo Carranza, Josué Isaac Gómez Méndez}
+\director{Dr. Miguel Alejandro Medina Armendariz}
+\fecha{12-10-2026}
+\ciudad{CDMX}
+\universidad{Universidad Internacional de la Rioja (UNIR)}
+\escuela{Escuela Superior de Ingeniería y Tecnología}
+\master{Máster en Computación Cuántica}
+\tipoTesis{Actividad grupal · Computación neuromórfica}
+
+\keywords{Neuromorphic computing, spiking neural networks, technology ethics}
+\keywordsEs{Computación neuromórfica, redes de impulsos, ética de la tecnología}
+
+
+%========================================================================%
+\makeatletter
+    \xdef\autorv{\@author}
+    \xdef\titulov{\@title}
+    \xdef\masterv{\@master}
+    \xdef\fechav{\@date}
+    \xdef\universidadv{\@universidad}
+    \xdef\escuelav{\@escuela}
+    \xdef\tipoTesisv{\@tipoTesis}
+    \xdef\directorv{\@director}
+    \xdef\ciudadv{\@ciudad}
+\makeatother
+\hypersetup{
+    pdftitle={\titulov},
+    pdfauthor={\autorv},
+    pdfsubject={\masterv},
+    pdfkeywords={\keywordsESv},
+}
+
+%========================================================================%
+%                        INICIO DEL DOCUMENTO
+%========================================================================%
+\begin{document}
+
+    %--- Páginas iniciales: portada, índice, resumen, listas ---%
+    \frontmatter
+    \pagestyle{frontmatter}
+        \maketitle
+
+        \begin{abstract}[Resumen]
+            \equipo{Redactar el resumen al final, cuando el resto esté cerrado:
+            150--200 palabras que digan qué paradigma se analiza, qué desafíos
+            y dilemas se identifican y a qué conclusión llega el equipo.}
+        \end{abstract}
+
+        \clearpage
+        % Los índices van con interlineado sencillo para que quepan en una
+        % sola hoja; el cuerpo del documento conserva el 1,5 de la plantilla.
+        \begin{spacing}{1}
+            \small
+            \tableofcontents
+            % \listoffigures abriría capítulo y forzaría página nueva; se
+            % compone a mano para que el índice de figuras quede en la misma
+            % hoja que el índice general.
+            \vspace{1.6em}
+            {\large\bfseries\color{azul} Índice de figuras}\par\vspace{0.7em}
+            \makeatletter\@starttoc{lof}\makeatother
+        \end{spacing}
+
+
+
+    %========================================================================%
+    %  CUERPO DEL DOCUMENTO — ESTRUCTURA OBLIGATORIA UNIR
+    %  (introducción, desarrollo, resultados, discusión, conclusiones,
+    %   bibliografía). Escriba el contenido de cada sección directamente
+    %  aquí abajo; ya no hace falta ningún \include ni carpeta "contenido/".
+    %========================================================================%
+    \mainmatter
+    \pagestyle{mainmatter}
+
+\chapter{Introducción}
+
+Durante más de siete décadas, la práctica totalidad de los sistemas de cómputo se
+ha construido sobre la arquitectura de von Neumann, que separa la unidad de
+procesamiento de la memoria. Esa separación obliga a transferir datos de forma
+continua entre ambas, y ese tránsito, y no la velocidad de cálculo, se ha
+convertido en el principal límite de rendimiento y consumo. El problema se agrava
+con las cargas de trabajo de la inteligencia artificial, que mueven volúmenes de
+parámetros muy superiores a los de la computación convencional.
+
+La computación neuromórfica propone una alternativa estructural: diseñar hardware
+inspirado en la organización del sistema nervioso, donde el procesamiento y el
+almacenamiento coinciden físicamente y la comunicación se produce mediante
+impulsos discretos, solo cuando hay actividad \parencite{mead1990}. No se trata
+de ejecutar más rápido el mismo modelo de cómputo, sino de cambiar la forma de
+organizarlo.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[font=\small,
+    panel/.style={draw=gray!55,rounded corners=3pt,
+                  minimum width=5.6cm,minimum height=2.6cm},
+    caja/.style={draw=gray,fill=white,rounded corners=2pt,
+                 minimum width=1.9cm,minimum height=1.0cm,align=center},
+    celda/.style={draw=azul,fill=azul!12,
+                  minimum width=1.85cm,minimum height=1.0cm,align=center}]
+  % --- izquierda: arquitectura convencional
+  \node[panel] at (0,0) {};
+  \node[anchor=south] at (0,1.45) {\textbf{Arquitectura convencional}};
+  \node[caja] (cpu) at (-1.45,0.25) {Procesador};
+  \node[caja] (mem) at ( 1.45,0.25) {Memoria};
+  \draw[<->,line width=1.6pt,red!65!black] (cpu) -- (mem);
+  \node[color=red!65!black] at (0,-0.72) {el dato viaja en \emph{cada} operación};
+  % --- derecha: arquitectura neuromórfica
+  \node[panel] at (7.4,0) {};
+  \node[anchor=south] at (7.4,1.45) {\textbf{Arquitectura neuromórfica}};
+  \node[celda] at (6.48,0.25) {Cómputo};
+  \node[celda,fill=azul!25] at (8.32,0.25) {Memoria};
+  \draw[azul,line width=1.1pt,rounded corners=2pt]
+        (5.52,-0.33) rectangle (9.28,0.83);
+  \node[color=azul] at (7.4,-0.72) {el dato ya está donde se opera};
+\end{tikzpicture}
+\caption{Separación entre procesamiento y memoria frente a su colocalización.}
+\label{fig:arquitectura}
+\end{figure}
+
+Su relevancia actual responde a dos presiones convergentes. La primera es
+energética: el coste de entrenar y ejecutar modelos de inteligencia artificial
+crece a un ritmo que la infraestructura convencional difícilmente sostiene. La
+segunda es la necesidad de procesamiento autónomo en el propio dispositivo, sin
+depender de una conexión permanente con centros de datos remotos, en ámbitos como
+la robótica, los vehículos autónomos o las prótesis médicas
+\parencite{roy2019}.
+
+\section{Objetivo y estructura de la memoria}
+
+El objetivo de este trabajo es analizar los retos que plantea la computación
+neuromórfica en tres planos: el tecnológico, el ético y el social.
+
+\equipo{Añadir una cifra que ilustre el coste de mover un dato frente a
+operarlo, y un dato verificado del crecimiento del consumo de los centros de
+datos de IA. Ambos refuerzan la justificación del trabajo.}
+
+La memoria se organiza como sigue. El capítulo \ref{cap:desarrollo} describe el
+paradigma, sus fundamentos teóricos y sus aplicaciones prácticas. El capítulo
+\ref{cap:resultados} expone los tres desafíos tecnológicos y las tres
+implicaciones éticas identificadas. El capítulo \ref{cap:discusion} propone
+medidas concretas para abordar esos riesgos y valora el impacto del paradigma en
+la sociedad. El capítulo \ref{cap:conclusiones} recoge las conclusiones del
+equipo.
+
+\chapter{Desarrollo}
+\label{cap:desarrollo}
+
+\section{¿En qué consiste el paradigma?}
+
+La computación neuromórfica diseña circuitos electrónicos que reproducen
+principios de organización del tejido nervioso. Sus tres rasgos distintivos
+frente a la arquitectura convencional son los siguientes.
+
+\begin{itemize}
+  \item \textbf{Colocalización de memoria y cómputo.} Las sinapsis artificiales
+  almacenan los pesos en el mismo punto donde se realiza la operación, lo que
+  elimina el tránsito constante de datos entre procesador y memoria.
+  \item \textbf{Comunicación por impulsos.} La información viaja en forma de
+  impulsos discretos, o \emph{spikes}, en lugar de valores continuos.
+  \item \textbf{Operación dirigida por eventos.} No existe un reloj global que
+  active todo el sistema en cada ciclo: una unidad consume energía únicamente
+  cuando recibe o emite un impulso. De ahí procede la mayor parte del ahorro
+  energético del paradigma \parencite{indiveri2015}.
+\end{itemize}
+
+\section{Fundamentos teóricos}
+
+El punto de partida conceptual se encuentra en los sistemas VLSI analógicos
+propuestos por \textcite{mead1990}, que reproducían en silicio la dinámica de las
+neuronas biológicas aprovechando el comportamiento físico de los transistores en
+régimen de subumbral.
+
+El modelo de cómputo asociado son las redes neuronales de impulsos. En ellas, cada
+neurona acumula las entradas que recibe a lo largo del tiempo y emite un impulso
+cuando su potencial interno supera un umbral, tras lo cual el potencial se
+reinicia. El modelo más utilizado es el de integración y disparo con fugas, cuya
+dinámica puede expresarse como
+
+\begin{equation}
+\tau_m \frac{dV(t)}{dt} = -\bigl(V(t) - V_{\mathrm{reposo}}\bigr) + R\, I(t),
+\label{eq:lif}
+\end{equation}
+
+donde $V(t)$ es el potencial de membrana, $\tau_m$ la constante de tiempo, $R$ la
+resistencia de membrana e $I(t)$ la corriente de entrada. Cuando $V(t)$ alcanza
+el umbral $V_{\mathrm{umbral}}$ se genera un impulso y el potencial vuelve a su
+valor de reposo.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[font=\small,scale=0.95]
+  \draw[->,gray] (0,0) -- (9.4,0) node[right,color=gray]{$t$};
+  \draw[->,gray] (0,-0.1) -- (0,2.3) node[above,color=gray]{$V$};
+  \draw[dashed,red!60!black] (0,1.7) -- (9.2,1.7);
+  \node[color=red!60!black,anchor=south west,font=\footnotesize] at (0.1,1.74) {umbral};
+  \draw[azul,line width=1.1pt]
+    (0,0.25) -- (1.1,0.85) -- (1.15,0.7) -- (2.2,1.4) -- (2.25,1.25)
+    -- (3.1,1.71) -- (3.12,0.25) -- (4.3,0.8) -- (4.35,0.65)
+    -- (5.4,1.2) -- (5.45,1.05) -- (6.6,1.71) -- (6.62,0.25)
+    -- (8.0,0.75) -- (8.05,0.63) -- (9.0,1.1);
+  \draw[line width=1.3pt,azul] (3.12,1.95) -- (3.12,2.4);
+  \draw[line width=1.3pt,azul] (6.62,1.95) -- (6.62,2.4);
+  \node[color=azul,anchor=west,font=\footnotesize] at (6.85,2.25) {impulsos emitidos};
+\end{tikzpicture}
+\caption{Potencial de membrana a lo largo del tiempo. Al alcanzar el umbral se
+emite un impulso y el potencial se reinicia.}
+\label{fig:neurona}
+\end{figure}
+
+La diferencia esencial con las redes neuronales artificiales convencionales es que
+aquí el tiempo forma parte del cómputo: la información no se codifica solo en la
+intensidad de una señal, sino en el instante y la frecuencia con que se producen
+los impulsos.
+
+\section{Aplicaciones prácticas}
+
+El paradigma ha dado lugar a varias plataformas de hardware con planteamientos
+distintos:
+
+\begin{itemize}
+  \item \textbf{TrueNorth} (IBM), un circuito digital de un millón de neuronas
+  programables orientado a inferencia de muy bajo consumo \parencite{merolla2014}.
+  \item \textbf{Loihi} (Intel), que incorpora aprendizaje en el propio chip
+  mediante reglas de plasticidad sináptica \parencite{davies2018}.
+  \item \textbf{SpiNNaker} (Universidad de Mánchester), una arquitectura masivamente
+  paralela concebida para simular en tiempo real redes neuronales a gran escala
+  \parencite{furber2014}.
+\end{itemize}
+
+Los ámbitos de aplicación más explorados son el reconocimiento de patrones
+sensoriales con restricciones de energía (visión y audición artificial), la
+robótica autónoma, el procesamiento en el borde de la red y las interfaces y
+prótesis neuronales \parencite{schuman2022}.
+
+\section{Cuatro dominios con resultados medidos}
+
+La lista anterior de ámbitos resulta insuficiente para valorar la madurez real
+del paradigma. A continuación se examinan cuatro dominios concretos, cada uno
+con el resultado publicado que lo respalda.
+
+\subsection{Navegación autónoma por visión}
+
+Es el dominio con mejores resultados comparativos. En tareas de estimación de
+flujo óptico sobre vehículos y drones, las redes de impulsos alcanzan un
+\textbf{20\% menos de error} que redes convencionales de tamaño equivalente,
+con unas \textbf{diez veces menos de energía} y hasta 48 veces menos parámetros
+\parencite{chowdhury2025}. El dato relevante es doble: no solo ahorra energía,
+también mejora la precisión.
+
+\subsection{Sensores siempre activos}
+
+En detección de palabra clave en audio sin conexión a la red, el procesador
+Xylo Audio 2 consume \textbf{219 microvatios en reposo} y 0,0066 milijulios por
+inferencia, con un acierto del 95,3\%. Esa cifra supera en aproximadamente un
+orden de magnitud a Loihi y SpiNNaker en energía por inferencia
+\parencite{bos2024}.
+
+\subsection{Inteligencia artificial en centro de datos}
+
+Hala Point, el mayor sistema neuromórfico construido hasta la fecha, integra
+1.152 chips Loihi 2 con 1.150 millones de neuronas y 128.000 millones de
+sinapsis, con un consumo máximo de \textbf{2.600 vatios} y una eficiencia
+superior a 15 TOPS/W \parencite{intel2024}.
+
+\subsection{Neuroprótesis}
+
+Es el dominio menos maduro, y conviene afirmarlo con claridad.
+\textcite{donati2024} concluyen que las tecnologías neuromórficas
+\enquote{todavía tienen un largo camino por recorrer} y que no existen
+implementaciones clínicas consolidadas: la revisión identifica líneas de
+investigación abiertas, no sistemas desplegados.
+
+\section{Lectura crítica de las cifras}
+
+La tabla \ref{tab:cifras} reúne los cuatro resultados anteriores. Su
+elaboración es aportación propia del equipo a partir de las cuatro fuentes
+citadas.
+
+\begin{table}[h!]
+\centering
+\caption{Resultados medidos por dominio de aplicación.}
+\label{tab:cifras}
+\begin{tabularx}{\textwidth}{L{0.8} L{0.7} L{1.5}}
+\toprule
+\textbf{Dominio} & \textbf{Plataforma} & \textbf{Dato medido} \\
+\midrule
+Visión autónoma & SNN frente a ANN & $-20$\% error; unas 10 veces menos energía \\
+Audio siempre activo & Xylo Audio 2 & 219 $\mu$W en reposo; 0,0066 mJ por inferencia \\
+Centro de datos & Hala Point & $1{,}15 \cdot 10^{9}$ neuronas en 2.600 W \\
+Neuroprótesis & --- & sin cifras clínicas publicadas \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Estas cifras exigen tres advertencias.
+
+En primer lugar, existe un \textbf{sesgo de selección}. Ninguna de las fuentes
+compara el paradigma en una tarea donde salga perdiendo. Los datos son
+correctos, pero no representan al conjunto de aplicaciones posibles.
+
+En segundo lugar, importa el \textbf{origen de la fuente}. La afirmación de que
+los sistemas basados en Loihi operan con cien veces menos energía que las
+arquitecturas convencionales procede de una nota de prensa del fabricante
+\parencite{intel2024}, no de una publicación revisada por pares. Debe citarse
+como tal. Las otras tres cifras sí proceden de revistas con revisión.
+
+En tercer lugar, \textbf{no existe un banco de pruebas común}. Que Xylo supere
+a Loihi y a SpiNNaker en un orden de magnitud en energía por inferencia no
+significa que sea superior: significa que resuelven problemas distintos y que
+no hay una medida estándar que permita compararlos. Esta carencia enlaza
+directamente con el primer desafío tecnológico que se expone en el capítulo
+siguiente.
+
+\equipo{Buscar un estudio independiente que contradiga o matice alguna de
+estas cuatro cifras. Encontrarlo reforzaría mucho esta sección; no encontrarlo
+también es un hallazgo y conviene decirlo.}
+
+\chapter{Resultados}
+\label{cap:resultados}
+
+Este capítulo recoge el análisis del equipo en sus dos vertientes: los desafíos
+técnicos que hoy frenan la adopción del paradigma y las implicaciones éticas que
+se derivan de sus características propias.
+
+\section{Desafíos tecnológicos}
+
+\subsection{Ausencia de un modelo de programación maduro}
+
+La computación convencional dispone de un modelo de referencia estable y de
+décadas de herramientas construidas sobre él. La computación neuromórfica carece
+de un equivalente consolidado: cada plataforma de hardware impone su propio
+entorno, sus primitivas y sus limitaciones, de modo que el código escrito para una
+no es trasladable a otra. Esta fragmentación eleva el coste de entrada y dificulta
+comparar resultados entre grupos de investigación \parencite{schuman2022}.
+
+\subsection{Entrenamiento de las redes de impulsos}
+
+El algoritmo de retropropagación, base del aprendizaje profundo, exige que la
+función de activación sea derivable. El impulso no lo es: se trata de un evento
+discreto. En consecuencia, el entrenamiento recurre a aproximaciones, como
+sustituir la derivada por una función sustituta, convertir redes convencionales ya
+entrenadas o emplear reglas de plasticidad local inspiradas en la biología. Ninguna
+de estas vías alcanza todavía, de forma general, la precisión de los modelos
+convencionales en tareas equivalentes \parencite{roy2019}.
+
+\subsection{Fabricación y variabilidad de los dispositivos}
+
+Las implementaciones analógicas y las basadas en memristores presentan dispersión
+entre unidades fabricadas en el mismo proceso, además de sensibilidad a la
+temperatura y al envejecimiento. Dos chips nominalmente idénticos pueden producir
+resultados distintos, lo que compromete la reproducibilidad y obliga a introducir
+mecanismos de calibración o de tolerancia a la variación
+\parencite{indiveri2015}.
+
+\section{Implicaciones éticas}
+
+\subsection{Opacidad y rendición de cuentas}
+
+Un sistema que aprende de forma continua, distribuida y local modifica su
+comportamiento después del despliegue, sin un conjunto de parámetros fijo que
+pueda inspeccionarse. Esto dificulta reconstruir por qué se tomó una decisión
+concreta y, con ello, atribuir responsabilidad cuando el sistema falla. La
+dificultad es mayor que en los modelos convencionales, donde al menos los pesos
+permanecen estables tras el entrenamiento.
+
+\subsection{Vigilancia ubicua}
+
+El bajo consumo es la principal virtud técnica del paradigma y, a la vez, el
+origen de su riesgo social más inmediato: permite instalar sensores capaces de
+analizar imagen y sonido de forma permanente, alimentados por baterías de larga
+duración o por captación de energía ambiental. La viabilidad económica de una
+vigilancia continua en el espacio público deja de ser una barrera técnica para
+convertirse en una decisión política.
+
+\subsection{La frontera con lo humano}
+
+Al describirse mediante vocabulario neurológico y al aplicarse a interfaces y
+prótesis que se conectan con el sistema nervioso, el paradigma reabre preguntas
+sobre la autonomía personal, la identidad y la privacidad mental.
+\textcite{yuste2017} plantean en este sentido prioridades éticas específicas para
+las neurotecnologías, entre ellas la protección de la identidad y de la agencia
+individual.
+
+\equipo{Decidir si se añade una cuarta implicación ética o si se
+profundiza en alguna de las tres. Si se añade, buscar una fuente que la
+respalde.}
+
+\chapter{Discusión}
+\label{cap:discusion}
+
+\section{Estrategias para abordar los riesgos éticos}
+
+Las tres medidas que proponemos se corresponden, una a una, con las implicaciones
+expuestas en el capítulo anterior.
+
+\subsection{Auditabilidad por diseño}
+
+Frente a la opacidad, la medida no consiste en renunciar al aprendizaje continuo,
+sino en exigir que todo sistema desplegado en un ámbito sensible registre de forma
+verificable las entradas recibidas, los cambios aplicados a sus parámetros y las
+decisiones emitidas. Ese registro debe estar disponible para auditores externos y
+conservarse durante un plazo definido. La condición ha de incorporarse en la fase
+de diseño, porque añadirla después resulta técnicamente inviable.
+
+\subsection{Regulación del despliegue en espacios públicos}
+
+Frente a la vigilancia ubicua, la respuesta corresponde al ámbito normativo:
+delimitar en qué lugares y con qué finalidades puede instalarse un sensor con
+capacidad de análisis permanente, establecer la obligación de señalizarlo y
+prohibir el reconocimiento biométrico indiscriminado. Marcos como el Reglamento
+europeo de inteligencia artificial ofrecen un punto de partida que puede adaptarse
+a otros contextos regulatorios.
+
+\subsection{Gobernanza específica de la neurotecnología}
+
+Frente a los riesgos asociados a las interfaces neuronales, proponemos exigir
+revisión por comités éticos independientes, consentimiento informado que
+contemple de manera explícita el uso posterior de los datos neuronales, y un
+tratamiento jurídico diferenciado de esos datos, que no pueden equipararse a
+cualquier otro dato personal \parencite{yuste2017}.
+
+\section{Impacto en la sociedad y en la humanidad}
+
+\subsection{Dimensión ambiental y económica}
+
+El argumento central a favor del paradigma es energético. Si una fracción
+significativa de las tareas de inferencia migrara a hardware dirigido por
+eventos, la presión sobre los centros de datos disminuiría de forma apreciable.
+Conviene, no obstante, tratar las cifras con cautela: las comparaciones
+publicadas suelen referirse a cargas de trabajo concretas y favorables, y no son
+extrapolables al conjunto de aplicaciones \parencite{schuman2022}.
+
+\equipo{Si se citan cifras de consumo de centros de datos, verificarlas
+en la fuente original y decir a qué carga de trabajo corresponden. Sin ese
+dato, la cifra no significa nada.}
+
+\subsection{Dimensión social y de acceso}
+
+El procesamiento autónomo en el propio dispositivo abre posibilidades claras en
+prótesis, asistencia a personas con discapacidad y dispositivos médicos capaces
+de operar sin conexión permanente. Al mismo tiempo, mientras la fabricación siga
+concentrada en pocos actores, el acceso a esta tecnología reproducirá las
+asimetrías ya existentes en la industria de los semiconductores.
+
+\equipo{Aterrizar el impacto a México o Latinoamérica: qué significaría aquí
+en concreto, con algún dato de la región si se encuentra.}
+
+\subsection{Dimensión filosófica}
+
+Imitar la arquitectura del cerebro no equivale a reproducir lo que el cerebro
+hace. Conviene mantener esa distinción, porque el vocabulario del paradigma
+(neuronas, sinapsis, aprendizaje) induce con facilidad a atribuir a estos sistemas
+capacidades de las que carecen. El interés filosófico del paradigma no reside en
+que nos acerque a construir una mente artificial, sino en que obliga a precisar
+qué entendemos por procesar información y en qué se distingue de comprenderla.
+
+\chapter{Conclusiones}
+\label{cap:conclusiones}
+
+El análisis realizado permite al equipo formular cuatro conclusiones.
+
+\textbf{Primera.} La computación neuromórfica no consiste en acelerar el modelo
+convencional, sino en reorganizarlo. Al unir memoria y cómputo y operar por
+eventos, elimina el cuello de botella que limita la arquitectura de von Neumann,
+a costa de renunciar a la generalidad de esta última.
+
+\textbf{Segunda.} Sus obstáculos principales ya no son de fabricación, sino de
+programación y entrenamiento. Existe hardware funcional, pero falta un modelo de
+programación común y un método de aprendizaje que iguale, de forma general, a los
+modelos convencionales.
+
+\textbf{Tercera.} Las implicaciones éticas no son un añadido externo al
+paradigma: proceden directamente de su mayor virtud técnica. Un consumo
+energético tan reducido es, a la vez, lo que permite desplegar sensores
+permanentes en cualquier lugar.
+
+\textbf{Cuarta.} Las medidas de mitigación deben incorporarse durante el diseño.
+La auditabilidad no puede añadirse a un sistema que ya aprende de forma continua,
+y la regulación del despliegue pierde eficacia una vez que la infraestructura
+está instalada.
+
+\equipo{Acordar entre los cuatro la postura del equipo: ¿sustituirá al
+modelo convencional, o será un acelerador especializado que conviva con él?
+Defenderla con lo expuesto en los capítulos anteriores, no con opiniones.}
+
+    %--- Referencias (formato APA, al final del documento) ---%
+    \chapter*{Referencias}
+    \addcontentsline{toc}{chapter}{Referencias}
+    % Interlineado sencillo para que las referencias quepan en una hoja.
+    \begin{spacing}{1}
+        \printbibliography[heading=none]
+    \end{spacing}
+
+\end{document}

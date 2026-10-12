@@ -412,25 +412,29 @@ aquí el tiempo forma parte del cómputo: la información no se codifica solo en
 intensidad de una señal, sino en el instante y la frecuencia con que se producen
 los impulsos.
 
-\section{Aplicaciones prácticas}
+\section{Aplicaciones prácticas y dominios de despliegue}
 
-El paradigma ha dado lugar a varias plataformas de hardware con planteamientos
-distintos:
+El paradigma neuromórfico ha trascendido el ámbito teórico para materializarse en diversas plataformas de hardware con arquitecturas y propósitos específicos. Entre las más destacadas se encuentran:
 
 \begin{itemize}
-  \item \textbf{TrueNorth} (IBM), un circuito digital de un millón de neuronas
-  programables orientado a inferencia de muy bajo consumo \parencite{merolla2014}.
-  \item \textbf{Loihi} (Intel), que incorpora aprendizaje en el propio chip
-  mediante reglas de plasticidad sináptica \parencite{davies2018}.
-  \item \textbf{SpiNNaker} (Universidad de Mánchester), una arquitectura masivamente
-  paralela concebida para simular en tiempo real redes neuronales a gran escala
-  \parencite{furber2014}.
+  \item \textbf{TrueNorth} (IBM), un circuito digital de un millón de neuronas programables orientado a inferencia de muy bajo consumo \parencite{merolla2014}.
+  \item \textbf{Loihi} (Intel), que incorpora aprendizaje en el propio chip mediante reglas de plasticidad sináptica \parencite{davies2018}.
+  \item \textbf{SpiNNaker} (Universidad de Mánchester), una arquitectura masivamente paralela concebida para simular en tiempo real redes neuronales a gran escala \parencite{furber2014}.
 \end{itemize}
 
-Los ámbitos de aplicación más explorados son el reconocimiento de patrones
-sensoriales con restricciones de energía (visión y audición artificial), la
-robótica autónoma, el procesamiento en el borde de la red y las interfaces y
-prótesis neuronales \parencite{schuman2022}.
+Los ámbitos de aplicación más explorados abarcan el reconocimiento de patrones sensoriales con restricciones de energía (visión y audición artificial), la robótica autónoma, el procesamiento en el borde de la red y las interfaces y prótesis neuronales \parencite{schuman2022}. Para valorar con rigor la madurez real de estas tecnologías, resulta insuficiente una enumeración genérica; a continuación se examinan con mayor profundidad cuatro dominios clave respaldados por literatura científica reciente.
+
+\subsection{Navegación autónoma y visión artificial basada en eventos}
+En el ámbito de la robótica móvil y los vehículos aéreos no tripulados (UAVs), las cámaras basadas en eventos (como las retinas artificiales o sensores DVS) generan datos asíncronos únicamente cuando se detectan cambios de luminosidad en los píxeles. Al combinarse con redes neuronales de impulsos (SNN), el sistema procesa el flujo óptico de forma nativa sin necesidad de barridos de fotogramas masivos. Las investigaciones demuestran que este enfoque reduce hasta en un 20\% el error de estimación frente a arquitecturas convencionales (ANN), consumiendo aproximadamente una décima parte de la energía y operando con una fracción de los parámetros habituales \parencite{chowdhury2025}. Esto permite una respuesta en tiempo real crítica para la evasión de obstáculos en entornos dinámicos con restricciones severas de peso y batería.
+
+\subsection{Procesamiento de audio y sensores acústicos en el borde (\textit{Always-On})}
+Las tareas de reconocimiento de comandos de voz, palabras clave o clasificación de sonidos ambientales en dispositivos móviles e Internet de las Cosas (IoT) exigen sistemas operativos permanentes (\textit{always-on}) que no agoten las fuentes de alimentación locales. Procesadores especializados de muy baja potencia —como \textit{Xylo Audio 2}— consiguen realizar detección de palabras clave con consumos de apenas 219 microvatios en modo de reposo y un gasto energético por inferencia de 0,0066 milijulios, manteniendo tasas de acierto superiores al 95\% \parencite{bos2024}. Esta eficiencia supera en órdenes de magnitud a los microcontroladores tradicionales basados en arquitecturas de von Neumann.
+
+\subsection{Escalabilidad en centros de datos e inteligencia artificial sostenible}
+A nivel de infraestructura intensiva, la computación neuromórfica busca frenar el crecimiento exponencial del consumo eléctrico derivado del entrenamiento y despliegue masivo de modelos de aprendizaje profundo. Arquitecturas de gran escala como \textit{Hala Point} —que integra más de un millar de chips Loihi 2 configurando 1.150 millones de neuronas y 128.000 millones de sinapsis— demuestran que es posible procesar cargas de trabajo cognitivas complejas con un consumo máximo acotado a 2.600 vatios y una eficiencia que supera los 15 TOPS/W \parencite{intel2024}. Este rendimiento abre la puerta a centros de datos especializados en simulaciones masivas y optimización combinatoria de alta eficiencia energética.
+
+\subsection{Neuroprótesis e interfaces cerebro-computadora (BCI)}
+Constituye el dominio con menor madurez clínica actual, pero con un potencial transformador más elevado. La capacidad de las redes de impulsos para imitar de forma biofísica la transmisión de señales nerviosas permite concebir interfaces somatosensoriales capaces de decodificar patrones de activación neuronal y traducirlos en órdenes para extremidades biónicas o estímulos táctiles de vuelta al sistema nervioso periférico. No obstante, conforme advierten \textcite{donati2024}, la transición desde la investigación preclínica hacia implementaciones médicas masivas y certificadas sigue enfrentando importantes retos de biocompatibilidad, estabilidad de la señal a largo plazo y ausencia de marcos normativos clínicos unificados.
 
 \section{Cuatro dominios con resultados medidos}
 

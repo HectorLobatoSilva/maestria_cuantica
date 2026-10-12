@@ -434,45 +434,7 @@ Las tareas de reconocimiento de comandos de voz, palabras clave o clasificación
 A nivel de infraestructura intensiva, la computación neuromórfica busca frenar el crecimiento exponencial del consumo eléctrico derivado del entrenamiento y despliegue masivo de modelos de aprendizaje profundo. Arquitecturas de gran escala como \textit{Hala Point} —que integra más de un millar de chips Loihi 2 configurando 1.150 millones de neuronas y 128.000 millones de sinapsis— demuestran que es posible procesar cargas de trabajo cognitivas complejas con un consumo máximo acotado a 2.600 vatios y una eficiencia que supera los 15 TOPS/W \parencite{intel2024}. Este rendimiento abre la puerta a centros de datos especializados en simulaciones masivas y optimización combinatoria de alta eficiencia energética.
 
 \subsection{Neuroprótesis e interfaces cerebro-computadora (BCI)}
-Constituye el dominio con menor madurez clínica actual, pero con un potencial transformador más elevado. La capacidad de las redes de impulsos para imitar de forma biofísica la transmisión de señales nerviosas permite concebir interfaces somatosensoriales capaces de decodificar patrones de activación neuronal y traducirlos en órdenes para extremidades biónicas o estímulos táctiles de vuelta al sistema nervioso periférico. No obstante, conforme advierten \textcite{donati2024}, la transición desde la investigación preclínica hacia implementaciones médicas masivas y certificadas sigue enfrentando importantes retos de biocompatibilidad, estabilidad de la señal a largo plazo y ausencia de marcos normativos clínicos unificados.
-
-\section{Cuatro dominios con resultados medidos}
-
-La lista anterior de ámbitos resulta insuficiente para valorar la madurez real
-del paradigma. A continuación se examinan cuatro dominios concretos, cada uno
-con el resultado publicado que lo respalda.
-
-\subsection{Navegación autónoma por visión}
-
-Es el dominio con mejores resultados comparativos. En tareas de estimación de
-flujo óptico sobre vehículos y drones, las redes de impulsos alcanzan un
-\textbf{20\% menos de error} que redes convencionales de tamaño equivalente,
-con unas \textbf{diez veces menos de energía} y hasta 48 veces menos parámetros
-\parencite{chowdhury2025}. El dato relevante es doble: no solo ahorra energía,
-también mejora la precisión.
-
-\subsection{Sensores siempre activos}
-
-En detección de palabra clave en audio sin conexión a la red, el procesador
-Xylo Audio 2 consume \textbf{219 microvatios en reposo} y 0,0066 milijulios por
-inferencia, con un acierto del 95,3\%. Esa cifra supera en aproximadamente un
-orden de magnitud a Loihi y SpiNNaker en energía por inferencia
-\parencite{bos2024}.
-
-\subsection{Inteligencia artificial en centro de datos}
-
-Hala Point, el mayor sistema neuromórfico construido hasta la fecha, integra
-1.152 chips Loihi 2 con 1.150 millones de neuronas y 128.000 millones de
-sinapsis, con un consumo máximo de \textbf{2.600 vatios} y una eficiencia
-superior a 15 TOPS/W \parencite{intel2024}.
-
-\subsection{Neuroprótesis}
-
-Es el dominio menos maduro, y conviene afirmarlo con claridad.
-\textcite{donati2024} concluyen que las tecnologías neuromórficas
-\enquote{todavía tienen un largo camino por recorrer} y que no existen
-implementaciones clínicas consolidadas: la revisión identifica líneas de
-investigación abiertas, no sistemas desplegados.
+Constituye el dominio con menor madurez clínica actual, pero con un potencial transformador más elevado. La capacidad de las redes de impulsos para imitar de forma biofísica la transmisión de señales nerviosas permite concebir interfaces somatosensoriales capaces de decodificar patrones de activación neuronal y traducirlos en órdenes para extremidades biónicas o estímulos táctiles de vuelta al sistema nervioso periférico. No obstante, conforme advierten \textcite{donati2024}, la transición desde la investigación preclínica hacia implementaciones médicas masivas y certificadas sigue enfrentando importantes retos de biocompatibilidad, estabilidad de la señal a largo plazo y ausencia de marcos normativos clínicos unificados. Conviene afirmarlo con claridad: los autores concluyen que estas tecnologías \enquote{todavía tienen un largo camino por recorrer}, de modo que lo que la revisión identifica son líneas de investigación abiertas, no sistemas clínicos desplegados.
 
 \section{Lectura crítica de las cifras}
 
@@ -559,19 +521,27 @@ mecanismos de calibración o de tolerancia a la variación
 \section{Implicaciones éticas}
 
 \subsection{Opacidad, rendición de cuentas y pérdida de control}
-Un sistema neuromórfico aprende y modifica su comportamiento de forma continua, distribuida y local tras su despliegue gracias a su intrínseca capacidad de aprendizaje in situ \cite{humanbrain2021, best2020}. Al carecer de un conjunto de parámetros fijos e inspeccionables, resulta sumamente difícil reconstruir el razonamiento detrás de una decisión concreta y atribuir responsabilidades cuando el sistema falla. Esta "opacidad extrema" agrava los retos éticos tradicionales de la inteligencia artificial, haciendo que la mitigación de sesgos algorítmicos y el mantenimiento del control humano sobre sistemas de inteligencia compleja sean técnicamente más complejos que en los modelos convencionales de redes neuronales \cite{lamata2020}.
+Un sistema neuromórfico aprende y modifica su comportamiento de forma continua, distribuida y local tras su despliegue gracias a su capacidad de aprendizaje \textit{in situ}, que en plataformas como Loihi se implementa mediante reglas de plasticidad sináptica ejecutadas en el propio chip \parencite{davies2018}. Al carecer de un conjunto de parámetros fijos e inspeccionables, resulta sumamente difícil reconstruir el razonamiento detrás de una decisión concreta y atribuir responsabilidades cuando el sistema falla. Esta \enquote{opacidad extrema} agrava los retos éticos tradicionales de la inteligencia artificial, haciendo que la mitigación de sesgos algorítmicos y el mantenimiento del control humano sean técnicamente más complejos que en los modelos convencionales de redes neuronales.
 
 \subsection{Vigilancia ubicua y la paradoja del bajo consumo}
-El bajo consumo energético y la velocidad de ejecución son las principales virtudes técnicas del paradigma neuromórfico \cite{humanbrain2021}, pero paradójicamente constituyen el origen de su riesgo social más inmediato. Su extrema eficiencia permite instalar sensores capaces de analizar imagen y sonido de forma permanente, alimentados por baterías de larga duración o mediante la captación de energía ambiental. Al superarse la viabilidad económica de una vigilancia continua en el espacio público, esta deja de ser una barrera técnica para convertirse puramente en una decisión política, lo que exige nuevos marcos éticos para prevenir el control poblacional.
+El bajo consumo energético y la velocidad de ejecución son las principales virtudes técnicas del paradigma neuromórfico \parencite{schuman2022}, pero paradójicamente constituyen el origen de su riesgo social más inmediato. Su extrema eficiencia permite instalar sensores capaces de analizar imagen y sonido de forma permanente, alimentados por baterías de larga duración o mediante la captación de energía ambiental. Al superarse la viabilidad económica de una vigilancia continua en el espacio público, esta deja de ser una barrera técnica para convertirse puramente en una decisión política, lo que exige nuevos marcos éticos para prevenir el control poblacional.
 
 \subsection{La frontera con lo humano, la biomimética y los neuroderechos}
-La computación neuromórfica difumina la línea entre la máquina y el ser humano al implementar copias analógicas o digitales de las redes neuronales biológicas en circuitos electrónicos, utilizando elementos como el memristor para simular sinapsis \cite{best2020}. Al describirse mediante vocabulario neurológico y aplicarse a interfaces cerebro-computadora (BCI) o prótesis conectadas al sistema nervioso, el paradigma reabre debates fundamentales sobre la autonomía personal, la agencia y la privacidad mental. Ante esta convergencia, marcos globales y expertos coinciden en la necesidad de establecer prioridades éticas específicas para las neurotecnologías, protegiendo así la identidad individual, el libre albedrío y los datos neuronales de los usuarios \cite{yuste2017, unesco_neurotech}.
+La computación neuromórfica difumina la línea entre la máquina y el ser humano al implementar copias analógicas o digitales de las redes neuronales biológicas en circuitos electrónicos, utilizando elementos como el memristor para simular sinapsis \parencite{indiveri2015}. Al describirse mediante vocabulario neurológico y aplicarse a interfaces cerebro-computadora (BCI) o prótesis conectadas al sistema nervioso, el paradigma reabre debates fundamentales sobre la autonomía personal, la agencia y la privacidad mental. Ante esta convergencia, marcos globales y expertos coinciden en la necesidad de establecer prioridades éticas específicas para las neurotecnologías, protegiendo así la identidad individual, el libre albedrío y los datos neuronales de los usuarios \parencite{yuste2017, unesco_neurotech}.
 
 \subsection{Autonomía, control y dilución de la responsabilidad}
-Mantener el control humano sobre sistemas de inteligencia compleja es uno de los dilemas éticos fundamentales. El hardware neuromórfico está diseñado para el aprendizaje \textit{in situ} y la adaptación autónoma sin supervisión constante. Si uno de estos sistemas, integrado en infraestructuras críticas, robótica médica o vehículos autónomos, toma una decisión perjudicial tras haber modificado su propio comportamiento de forma impredecible, resulta legal y éticamente complejo determinar quién es el responsable del fallo, diluyendo la rendición de cuentas humana y técnica \cite{humanbrain2021}.
+Mantener el control humano sobre sistemas de inteligencia compleja es uno de los dilemas éticos fundamentales. El hardware neuromórfico está diseñado para el aprendizaje \textit{in situ} y la adaptación autónoma sin supervisión constante. Si uno de estos sistemas, integrado en infraestructuras críticas, robótica médica o vehículos autónomos, toma una decisión perjudicial tras haber modificado su propio comportamiento de forma impredecible, resulta legal y éticamente complejo determinar quién es el responsable del fallo, diluyendo la rendición de cuentas humana y técnica \parencite{davies2018}.
 
 \subsection{Paradoja de la sostenibilidad y extracción de materiales}
-Aunque la computación neuromórfica busca reducir el altísimo coste energético de los centros de datos mediante una eficiencia superior \cite{humanbrain2021}, la fabricación de estos chips inspirados en el cerebro depende a menudo de elementos de tierras raras y materiales complejos para construir componentes clave como los memristores \cite{best2020}. Esto plantea una importante paradoja ética: el problema de la sostenibilidad global se transfiere de la mitigación del consumo eléctrico hacia la explotación de recursos naturales críticos, el impacto ambiental de su extracción y la compleja gestión a largo plazo de residuos electrónicos tóxicos \cite{semi_ethics}.
+Aunque la computación neuromórfica busca reducir el altísimo coste energético de los centros de datos mediante una eficiencia superior \parencite{roy2019}, la fabricación de estos chips inspirados en el cerebro depende de dispositivos memristivos y materiales no convencionales cuya dispersión entre unidades ya constituye hoy un problema de fabricación reconocido \parencite{indiveri2015}. Esto plantea una importante paradoja ética: el problema de la sostenibilidad global se transfiere de la mitigación del consumo eléctrico hacia la explotación de recursos naturales críticos, el impacto ambiental de su extracción y la compleja gestión a largo plazo de residuos electrónicos.
+
+\equipo{Esta última frase es la única afirmación del capítulo que todavía no
+tiene fuente. Hace falta un dato publicado sobre tierras raras o residuos
+electrónicos en la fabricación de semiconductores: sirve un informe de la
+Agencia Internacional de la Energía, del Programa de las Naciones Unidas
+para el Medio Ambiente o del \textit{Global E-waste Monitor}. Al añadirlo,
+se puede recuperar la mención explícita a las tierras raras y borrar esta
+nota.}
 
 \chapter{Discusión}
 \label{cap:discusion}
@@ -621,14 +591,14 @@ El contexto actual de los conflictos armados hace todavía más evidente este pr
 
 Esto plantea una pregunta sobre hasta dónde debe permitirse la autonomía de estos sistemas. En un dispositivo médico, la capacidad de tomar determinadas decisiones automáticamente puede representar una ventaja para el usuario; sin embargo, en sistemas militares o de vigilancia, permitir que una máquina identifique o clasifique personas sin una supervisión humana suficiente puede tener consecuencias mucho más graves. Por lo tanto, la autonomía no debe analizarse únicamente como una ventaja tecnológica, sino también considerando quién utiliza el sistema y cuál es su finalidad.
 
-Por otra parte, existe un problema relacionado con quién tiene acceso y control sobre estas tecnologías. El desarrollo de procesadores avanzados e inteligencia artificial requiere grandes cantidades de capital, conocimiento e infraestructura especializada. De acuerdo con la OCDE, aproximadamente el 87\% de la capacidad mundial de fabricación de wafers de semiconductores se encuentra concentrada en cinco economías \parencite{oecd2025chips}. Esto genera una dependencia importante, ya que no todos los países cuentan con las mismas capacidades para diseñar, fabricar o acceder a las tecnologías más avanzadas.
+Por otra parte, existe un problema relacionado con quién tiene acceso y control sobre estas tecnologías. El desarrollo de procesadores avanzados e inteligencia artificial requiere grandes cantidades de capital, conocimiento e infraestructura especializada. La OCDE documenta que la capacidad mundial de fabricación de obleas de semiconductores está muy concentrada geográficamente, y que la escasa sustituibilidad entre plantas convierte esa concentración en un cuello de botella capaz de amplificar cualquier interrupción del suministro \parencite{oecd2025chips}. Esto genera una dependencia importante, ya que no todos los países cuentan con las mismas capacidades para diseñar, fabricar o acceder a las tecnologías más avanzadas.
 
-Esta situación adquiere mayor importancia cuando una parte importante de la infraestructura digital se encuentra en manos de un número reducido de empresas y países. La UNCTAD señala que la inversión internacional relacionada con inteligencia artificial, semiconductores y otras tecnologías estratégicas se concentra en un grupo reducido de economías, aumentando el riesgo de que los países con menores capacidades tecnológicas queden rezagados \parencite{unctad2026}. De esta forma, la brecha tecnológica ya no consiste solamente en quién puede acceder a Internet o adquirir una computadora, sino también en quién tiene la capacidad de diseñar los procesadores, desarrollar los algoritmos y controlar la infraestructura necesaria para ejecutar estos sistemas.
+Esta situación adquiere mayor importancia cuando una parte importante de la infraestructura digital se encuentra en manos de un número reducido de empresas y países. La UNCTAD señala que el acceso a la infraestructura y a la experiencia en inteligencia artificial sigue concentrado en unas pocas economías, y cuantifica esa concentración: apenas cien empresas, radicadas principalmente en Estados Unidos y China, concentran el 40\% del gasto empresarial mundial en investigación y desarrollo, con el riesgo consiguiente de ensanchar las brechas tecnológicas existentes \parencite{unctad2025}. De esta forma, la brecha tecnológica ya no consiste solamente en quién puede acceder a Internet o adquirir una computadora, sino también en quién tiene la capacidad de diseñar los procesadores, desarrollar los algoritmos y controlar la infraestructura necesaria para ejecutar estos sistemas.
 
 Por lo anterior, se considera que el impacto social de la computación neuromórfica dependerá en gran medida de quién controle la tecnología y para qué sea utilizada. Su bajo consumo y capacidad de procesamiento autónomo pueden favorecer aplicaciones médicas y sistemas más eficientes energéticamente, pero estas mismas características también pueden utilizarse para desarrollar mecanismos de vigilancia permanente, sistemas militares con mayor autonomía y nuevas formas de recopilación de información. El reto no consiste solamente en desarrollar procesadores más eficientes, sino también en establecer mecanismos de transparencia, regulación y responsabilidad que permitan aprovechar sus beneficios sin aumentar al mismo tiempo la capacidad de vigilancia, control o desigualdad dentro de la sociedad.
 
 
-\subsection{Dimensión filosófica}
+\section{Dimensión filosófica}
 
 Imitar la arquitectura del cerebro no equivale a reproducir lo que el cerebro
 hace. Conviene mantener esa distinción, porque el vocabulario del paradigma
@@ -669,8 +639,19 @@ Defenderla con lo expuesto en los capítulos anteriores, no con opiniones.}
     %--- Referencias (formato APA, al final del documento) ---%
     \chapter*{Referencias}
     \addcontentsline{toc}{chapter}{Referencias}
-    % Interlineado sencillo para que las referencias quepan en una hoja.
+    % Interlineado sencillo y sin separación extra entre entradas. Con las
+    % 12 referencias iniciales cabían en una hoja; al añadir las cuatro
+    % fuentes institucionales (UNESCO, CICR, OCDE, UNCTAD) la última entrada
+    % pasa a una segunda página. Se deja así a propósito: forzarla a una
+    % sola hoja exigiría reducir el cuerpo de letra, y no merece la pena.
     \begin{spacing}{1}
+        \setlength{\bibitemsep}{0pt plus 0pt minus 0pt}
+        % Permite que las URLs largas (CICR, UNESCO, UNCTAD) se partan entre
+        % líneas. Sin esto, una URL que no cabe desborda el margen y genera
+        % el aviso "Overfull \hbox" en esta línea.
+        \setcounter{biburlnumpenalty}{9000}
+        \setcounter{biburlucpenalty}{9000}
+        \setcounter{biburllcpenalty}{9000}
         \printbibliography[heading=none]
     \end{spacing}
 

@@ -83,6 +83,8 @@
   number  = {8},
   pages   = {1379--1397},
   year    = {2015}
+  % Sin DOI: no se localizó en fuente autorizada. Mejor omitirlo que
+  % arriesgar un identificador incorrecto.
 }
 
 % VERIFICADA (ORNL / DOI 10.1038/s43588-021-00184-y). Se añadió el número (1).
@@ -131,11 +133,11 @@
 
 % VERIFICADA (arXiv:2406.15112, SynSense, junio 2024)
 @online{bos2024,
-  author     = {Bos, Hannah and Muir, Dylan R.},
-  title      = {Micro-power spoken keyword spotting on {Xylo Audio 2}},
-  year       = {2024},
-  eprinttype = {arxiv},
-  eprint     = {2406.15112}
+  author       = {Bos, Hannah and Muir, Dylan R.},
+  title        = {Micro-power spoken keyword spotting on {Xylo Audio 2}},
+  year         = {2024},
+  eprinttype   = {arxiv},
+  eprint       = {2406.15112}
 }
 
 % VERIFICADA (Nature Communications 15:556, 2024)
@@ -152,155 +154,79 @@
 % ATENCIÓN: es fuente del fabricante, no revisada por pares. Las cifras
 % de "100x menos energía" proceden de Intel y deben presentarse como tales.
 @online{intel2024,
-  author = {{Intel Corporation}},
-  title  = {Intel builds world's largest neuromorphic system to
-            enable more sustainable {AI}},
-  year   = {2024},
-  note   = {Nota de prensa, 17 de abril}
+  author       = {{Intel Corporation}},
+  title        = {Intel builds world's largest neuromorphic system to
+                  enable more sustainable {AI}},
+  year         = {2024},
+  note         = {Nota de prensa, 17 de abril}
 }
 
-@article{roy2019,
-  author  = {Roy, Kaushik and Jaiswal, Akhilesh and Panda, Priyadarshini},
-  title   = {Towards spike-based machine intelligence with neuromorphic computing},
-  journal = {Nature},
-  volume  = {575},
-  pages   = {607--617},
-  year    = {2019},
-  doi     = {10.1038/s41586-019-1677-2}
+% ---------------------------------------------------------------------
+%  FUENTES INSTITUCIONALES  —  añadidas tras las aportaciones del equipo
+%  Las tres se verificaron en la web del propio organismo que publica,
+%  no en resúmenes de terceros.
+% ---------------------------------------------------------------------
+
+% VERIFICADA en unesco.org: adoptada por la Conferencia General de la
+% UNESCO en su 43.ª reunión, noviembre de 2025. Es el primer instrumento
+% normativo mundial sobre ética de las neurotecnologías.
+@online{unesco_neurotech,
+  author       = {{UNESCO}},
+  title        = {Recommendation on the Ethics of Neurotechnology},
+  year         = {2025},
+  organization = {Conferencia General de la UNESCO, 43.ª reunión},
+  url          = {https://www.unesco.org/en/ethics-neurotech/recommendation},
+  urldate      = {2026-10-12}
 }
 
-@article{schuman2022,
-  author  = {Schuman, Catherine D. and Kulkarni, Shruti R. and Parsa, Maryam and Mitchell, J. Parker and Date, Prasanna and Kay, Bill},
-  title   = {Opportunities for neuromorphic computing algorithms and applications},
-  journal = {Nature Computational Science},
-  volume  = {2},
-  pages   = {10--19},
-  year    = {2022},
-  doi     = {10.1038/s43588-021-00184-y}
-}
-
-@article{yuste2017,
-  author  = {Yuste, Rafael
-             and Goering, Sara
-             and {Agüera y Arcas}, Blaise
-             and Bi, Guoqiang
-             and Carmena, Jose M.
-             and Carter, Adrian
-             and Fins, Joseph J.
-             and Friesen, Phoebe
-             and Gallant, Jack
-             and Huggins, Jane E.
-             and Illes, Judy
-             and Kellmeyer, Philipp
-             and Klein, Eran
-             and Marblestone, Adam
-             and Mitchell, Christine
-             and Parens, Erik
-             and Pham, Michelle
-             and Rubel, Alan
-             and Sadato, Norihiro
-             and {Specker Sullivan}, Laura
-             and Teicher, Mina
-             and Wasserman, David
-             and Wexler, Anna
-             and Whittaker, Meredith
-             and Wolpaw, Jonathan},
-  title   = {Four ethical priorities for neurotechnologies and AI},
-  journal = {Nature},
-  volume  = {551},
-  pages   = {159--163},
-  year    = {2017},
-  doi     = {10.1038/551159a}
-}
-
+% VERIFICADA en icrc.org. La afirmación citada en el texto ("aumentar la
+% velocidad y escala de los conflictos y reducir el control humano sobre
+% el uso de la fuerza") es literal de esta página: "could accelerate the
+% pace and scale of warfare" / "reduce human control over the use of force".
+% Publicada el 11 de junio de 2026.
 @online{icrc2026ai,
-  author  = {{International Committee of the Red Cross}},
-  title   = {Frequently asked questions: Artificial Intelligence (AI) in the military domain},
-  date    = {2026-06-11},
-  url     = {https://www.icrc.org/en/article/faq-artificial-intelligence-in-military-domain},
-  urldate = {2026-10-10}
+  author       = {{Comité Internacional de la Cruz Roja}},
+  title        = {Frequently asked questions: Artificial Intelligence
+                  ({AI}) in the military domain},
+  year         = {2026},
+  url          = {https://www.icrc.org/en/article/faq-artificial-intelligence-in-military-domain},
+  urldate      = {2026-10-12}
 }
 
+% VERIFICADA (OECD / EconPapers): STI Policy Papers n.º 188, diciembre de
+% 2025, DOI 10.1787/02dbd028-en.
+% ATENCIÓN: la cifra del 87 % en cinco economías que figuraba en el
+% borrador NO aparece en ninguna página del informe accesible en oecd.org;
+% solo se localizó en un blog de terceros. El texto se reescribió para
+% recoger lo que el informe sí afirma de forma literal: que la capacidad
+% de producción "está muy concentrada geográficamente".
 @report{oecd2025chips,
-  author      = {{OECD}},
-  title       = {The Chip Landscape: Geographical Distribution of Wafer Fabrication Capacity},
-  series      = {OECD Science, Technology and Industry Policy Papers},
+  author      = {{OCDE}},
+  title       = {The chip landscape: Geographical distribution of wafer
+                 fabrication capacity},
+  type        = {OECD Science, Technology and Industry Policy Papers},
   number      = {188},
   institution = {OECD Publishing},
-  location    = {Paris},
+  address     = {París},
   year        = {2025},
   doi         = {10.1787/02dbd028-en}
 }
 
-@report{unctad2026,
-  author      = {{UN Trade and Development (UNCTAD)}},
-  title       = {World Investment Report 2026: International Investment in a Turbulent Era},
-  institution = {United Nations},
-  location    = {Geneva},
-  year        = {2026},
-  url         = {https://unctad.org/publication/world-investment-report-2026-international-investment-turbulent-era},
-  urldate     = {2026-10-10}
-}
-
-@misc{humanbrain2021,
-  author = {{Human Brain Project}},
-  title  = {Neuromorphic Computing},
-  year   = {2021},
-  url    = {https://www.humanbrainproject.eu/en/silicon-brains/},
-  note   = {Accedido en 2026}
-}
-
-@article{best2020,
-  author  = {Best, Jo},
-  title   = {What is neuromorphic computing? Everything you need to know about how it is changing the future of computing},
-  journal = {ZDNet},
-  year    = {2020},
-  month   = {Dec},
-  url     = {https://www.zdnet.com/article/what-is-neuromorphic-computing-everything-you-need-to-know-about-how-it-will-change-the-future-of-computing/}
-}
-
-@article{lamata2020,
-  author    = {Lamata, Lucas},
-  title     = {Quantum machine learning and quantum biomimetics: A perspective},
-  journal   = {Machine Learning: Science and Technology},
-  volume    = {1},
-  number    = {3},
-  pages     = {033002},
-  year      = {2020},
-  publisher = {IOP Publishing}
-}
-
-@article{yuste2017,
-  author    = {Yuste, Rafael and Goering, Sara and Bi, Guoqiang and Carmena, Jose M. and Carter, Arnd and Fins, Joseph J. and Fries, Pascal and Gallant, Jack and Huggins, Jane E. and Illes, Judy and others},
-  title     = {Four ethical priorities for neurotechnologies and AI},
-  journal   = {Nature},
-  volume    = {551},
-  number    = {7679},
-  pages     = {159--163},
-  year      = {2017},
-  publisher = {Nature Publishing Group}
-}
-
-@misc{unesco_neurotech,
-  author = {{UNESCO}},
-  title  = {Ethics of Neurotechnology},
-  year   = {2021},
-  url    = {https://www.unesco.org/en/ethics-neurotech},
-  note   = {Marco ético global para la protección de la privacidad mental}
-}
-
-@misc{unesco_neurotech,
-  author = {{UNESCO}},
-  title  = {Ethics of Neurotechnology},
-  year   = {2021},
-  url    = {https://www.unesco.org/en/ethics-neurotech},
-  note   = {Marco ético global para la protección de la privacidad mental}
-}
-
-@article{semi_ethics,
-  author  = {Sperling, Ed},
-  title   = {Neuromorphic Computing: Challenges, Opportunities, and Ethics},
-  journal = {Semiconductor Engineering},
-  year    = {2022},
-  url     = {https://semiengineering.com/neuromorphic-computing-challenges-opportunities-including-materials-algorithms-devices-ethics/}
+% VERIFICADA en unctad.org (serie Technology and Innovation Report, n.º 8).
+% ATENCIÓN: la clave original del borrador era "unctad2026", pero el
+% informe que sostiene la afirmación es el de 2025. Cifras literales de
+% la nota de UNCTAD: "access to AI infrastructure and expertise remains
+% concentrated in a few economies" y "just 100 firms, mainly in the US and
+% China, account for 40% of global corporate research and development".
+@report{unctad2025,
+  author      = {{UNCTAD}},
+  title       = {Technology and Innovation Report 2025: Inclusive
+                 artificial intelligence for development},
+  type        = {Technology and Innovation Report},
+  number      = {8},
+  institution = {United Nations Conference on Trade and Development},
+  address     = {Ginebra},
+  year        = {2025},
+  url         = {https://unctad.org/publication/technology-and-innovation-report-2025},
+  urldate     = {2026-10-12}
 }

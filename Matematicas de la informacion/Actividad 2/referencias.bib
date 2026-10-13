@@ -161,18 +161,6 @@
   note         = {Nota de prensa, 17 de abril}
 }
 
-% VERIFICADA (artículo de divulgación médica/científica, 10 de noviembre de 2023).
-% ATENCIÓN: es una fuente institucional/divulgativa de Stanford Medicine. Analiza 
-% los avances en computación neuromórfica inspirada en el sistema nervioso humano.
-@online{stanfordmed2023,
-  author       = {{Stanford Medicine}},
-  title        = {Building computers to emulate a human brain and nervous system},
-  year         = {2023},
-  month        = {11},
-  url          = {https://stanford.edu},
-  note         = {Artículo de divulgación, 10 de noviembre}
-}
-
 % ---------------------------------------------------------------------
 %  FUENTES INSTITUCIONALES  —  añadidas tras las aportaciones del equipo
 %  Las tres se verificaron en la web del propio organismo que publica,
@@ -187,8 +175,7 @@
   title        = {Recommendation on the Ethics of Neurotechnology},
   year         = {2025},
   organization = {Conferencia General de la UNESCO, 43.ª reunión},
-  url          = {https://www.unesco.org/en/ethics-neurotech/recommendation},
-  urldate      = {2026-10-12}
+  url          = {https://www.unesco.org/en/ethics-neurotech/recommendation}
 }
 
 % VERIFICADA en icrc.org. La afirmación citada en el texto ("aumentar la
@@ -201,8 +188,7 @@
   title        = {Frequently asked questions: Artificial Intelligence
                   ({AI}) in the military domain},
   year         = {2026},
-  url          = {https://www.icrc.org/en/article/faq-artificial-intelligence-in-military-domain},
-  urldate      = {2026-10-12}
+  url          = {https://www.icrc.org/en/article/faq-artificial-intelligence-in-military-domain}
 }
 
 % VERIFICADA (OECD / EconPapers): STI Policy Papers n.º 188, diciembre de
@@ -236,9 +222,70 @@
                  artificial intelligence for development},
   type        = {Technology and Innovation Report},
   number      = {8},
-  institution = {United Nations Conference on Trade and Development},
+  institution = {{UNCTAD}},
   address     = {Ginebra},
   year        = {2025},
-  url         = {https://unctad.org/publication/technology-and-innovation-report-2025},
-  urldate     = {2026-10-12}
+  url         = {https://unctad.org/publication/technology-and-innovation-report-2025}
+}
+
+% VERIFICADA en el PDF del propio grupo de investigación (Brains in Silicon,
+% Universidad de Stanford): Proc. IEEE 102(5), 699-716, mayo de 2014.
+% DOI 10.1109/JPROC.2014.2313565.
+% ATENCIÓN: la clave del borrador era "standford2023" (Stanford mal escrito y
+% año incorrecto). Las cifras del artículo son "un millón de neuronas con
+% miles de millones de conexiones sinápticas"; la simulación concreta que
+% documenta es de un millón de neuronas y OCHO MIL MILLONES de sinapsis.
+@article{benjamin2014,
+  author  = {Benjamin, Ben Varkey and Gao, Peiran and McQuinn, Emmett and
+             Choudhary, Swadesh and Chandrasekaran, Anand R. and
+             Bussat, Jean-Marie and others},
+  title   = {Neurogrid: A mixed-analog-digital multichip system for
+             large-scale neural simulations},
+  journal = {Proceedings of the IEEE},
+  volume  = {102},
+  number  = {5},
+  pages   = {699--716},
+  year    = {2014},
+  doi     = {10.1109/JPROC.2014.2313565}
+}
+
+% VERIFICADA en el PDF de la propia ponencia plenaria (ISSCC 2014, sesión 1,
+% artículo 1.1). Las cifras citadas en el texto son literales del artículo:
+% un acceso a DRAM cuesta "1 to 2 nJ" frente a "about 10 pJ" de una operación
+% funcional o un acceso a caché interna.
+% Sin DOI ni páginas: no se localizaron en fuente autorizada. Mejor omitirlos
+% que arriesgar identificadores incorrectos.
+@inproceedings{horowitz2014,
+  author    = {Horowitz, Mark},
+  title     = {Computing's energy problem (and what we can do about it)},
+  booktitle = {IEEE International Solid-State Circuits Conference
+               ({ISSCC}), Digest of Technical Papers},
+  year      = {2014}
+}
+
+% VERIFICADA en itu.int (nota de prensa del 20 de marzo de 2024, uno de los
+% dos organismos que publican el informe). Cifras literales: 62 millones de
+% toneladas de residuos electrónicos en 2022, de las que solo el 22,3 % se
+% documentó como correctamente gestionada, y "no more than 1 per cent of
+% demand for essential rare earth elements is met by e-waste recycling".
+@report{ewaste2024,
+  author      = {{UIT} and {UNITAR}},
+  title       = {The Global E-waste Monitor 2024},
+  institution = {{UIT} y {UNITAR}},
+  address     = {Ginebra y Bonn},
+  year        = {2024},
+  url         = {https://www.itu.int/en/ITU-D/Environment/Pages/Publications/The-Global-E-waste-Monitor-2024.aspx}
+}
+
+% VERIFICADA en arXiv (2409.08290, agosto de 2024).
+% ATENCIÓN: es una preimpresión, no está revisada por pares. Se cita
+% precisamente como contrapunto independiente a las cifras de eficiencia,
+% y el texto lo advierte de forma explícita.
+@online{yan2024,
+  author       = {Yan, Zhanglu and Bai, Zhenyu and Wong, Weng-Fai},
+  title        = {Reconsidering the energy efficiency of spiking neural
+                  networks},
+  year         = {2024},
+  eprinttype   = {arxiv},
+  eprint       = {2409.08290}
 }
